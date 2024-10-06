@@ -1,0 +1,125 @@
+.bodyQR {
+    .leeqr{
+    position: absolute;
+    width: 100%;
+    align-content: center;
+    overflow: hidden;
+    
+    h1{
+        text-align: center;
+    }
+    .psita{
+        width: 100%;
+        left: 50%;
+        height: 100px;
+        align-content: center;
+        border-radius: 20px;
+
+    }
+    .conteQr{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .QR{
+            margin-top: 30px;
+            width: 60%;
+            display: flex;
+            justify-content: center;
+            object-fit: contain;
+            height: auto;
+            overflow: hidden;
+            text-align: center; 
+            border: 3px solid #5C0000;
+            border-radius: 10px;
+            .container{
+                width: 70%;
+                .botonqr{
+                    height: 50px;
+                    width: 200px;
+                    margin-top: 16px;
+                    margin-bottom: 10px;
+                    border: 3px solid #5C0000;
+                    border-radius: 10px;
+                }
+                .video{
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    width: 100%;
+                    height: 300px;
+                }
+                .contvideo{
+                    width: 100%;
+                    height: 300px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                }
+
+            }
+            .video2{
+                display: none;
+            }
+        }
+    }
+    
+
+}
+
+
+}
+
+#error-msg{
+display: none;
+padding: 10px 0 25px 0;
+color: red;
+}
+
+
+@media (max-width: 480px) {
+.bodyQR{
+    .leeqr{
+        text-align: center !important; 
+        align-content: center  !important;
+        overflow: hidden  !important;
+        
+        h1{
+            text-align: center  !important;
+        }
+        .psita{
+            width: 70%  !important;
+            height: 100px  !important;
+            align-content: center !important;
+            margin-left: 50px !important;
+    
+        }
+        .QR{
+            width: 100% !important;
+            align-content: center !important;
+            border: 3px solid #5C0000 !important;
+            .container{
+                width: 100% !important;
+                height: auto !important;
+                .botonqr{
+                    height: 50px !important;
+                    width: 200px !important;
+                    margin-left: 0px !important;
+                    margin-top: 16px !important;
+                    border: 3px solid #5C0000 !important;
+                }
+            }
+        }
+    
+    }
+    
+
+}
+.contorno{
+    border: 3px solid black;
+    .top{
+        list-style-type: none;
+        margin-bottom: 10px;
+    }
+
+}
+
+}

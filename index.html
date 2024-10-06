@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./app/pages/login/css/login-styles.css">
+    <title>Iniciar Sesión</title>
+</head>
+<body class="bodymenu">
+    <div class="login" id="loginForm">
+        <div class="login-header">
+            <h2>Login</h2>
+        </div>
+        <form id="login-form" class="login-form" action="./app/pages/login/page/login.php" method="POST">
+            <div class="login-labels">
+                <label for="nombre">Usuario</label>
+                <input type="text" id="usuario" name="usuario" required placeholder="Ingrese su Usuario">
+            </div>
+            <div class="login-labels">
+                <label for="dni">DNI</label>
+                <input type="text" id="dni" name="dni" required placeholder="Ingrese su DNI" maxlength="8">
+            </div>
+            <button type="submit" class="submit-btn">Iniciar</button>   
+        </form>
+    
+    <div id="message" style="display: none; text-align: center; padding: 1.25rem;"></div> <!-- Mensaje de éxito o error -->
+    </div>
+    </div>
+    <div class="logod">
+        <img class="logologin ms-5" src="./public/images/ubp-oniet.png" alt="logo de ubp">
+        <img class="chat ms-5" src="./public/images/openia-logo.png" alt="logo de openia">
+    </div>
+    <script src="./app/pages/login/js/login.js"></script>
+</body> 
+</html>
