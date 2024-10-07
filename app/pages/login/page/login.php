@@ -6,7 +6,7 @@ session_start();
 $servername = "localhost";
 $username = "root";  // Usuario por defecto de XAMPP
 $password = "";  // Contraseña vacía por defecto en XAMPP
-$dbname = "resolutions_qrproyecto";
+$dbname = "resolution_qrproyecto";
 
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);

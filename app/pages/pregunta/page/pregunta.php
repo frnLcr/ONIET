@@ -1,15 +1,17 @@
 <?php
 session_start();
 
+// Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['usuario'])) {
-    echo json_encode(["success" => false, "error" => "Usuario no logueado"]);
+    // Si no ha iniciado sesión, redirigir al login
+    header("Location: ../../../../index.html");
     exit;
 }
 
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "resolutions_qrproyecto";
+$dbname = "resolution_qrproyecto";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -17,6 +19,8 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
+$usuario = $_SESSION['usuario'];
+$puntaje = $_SESSION['puntaje'];
 $usuario = $_SESSION['usuario'];
 
 // Consulta para obtener el puntaje actual del usuario

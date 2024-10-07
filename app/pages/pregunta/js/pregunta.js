@@ -4,7 +4,7 @@ let questions = [];
 const getQuestions = async () => {
     try {
         // Realiza la petición a tu API
-        const res = await fetch("http://20.206.202.123:8000/generate-question", {referrerPolicy: "unsafe-url"});
+        const res = await fetch("http://20.206.202.123:8000/generate-question"/*, {referrerPolicy: "unsafe-url"}*/);
         const jsonData = await res.json();
         
         // Parsea el contenido para obtener la pregunta y las respuestas

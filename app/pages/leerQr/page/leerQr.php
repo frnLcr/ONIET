@@ -64,7 +64,7 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
 
     <main class="leeqr">
     <section class="psita">
-        <h1>PISTA</h1>
+        <h1 id=pista></h1>
     </section>
     <div class="conteQr">
     <section class="QR">
@@ -132,15 +132,12 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
       </div>
     
       <div id="modalRanking" class="modal">
+        <span class="close">&times;</span>
         <div class="modal-content">
-            <span class="close">&times;</span>
             <h2 class="top">Ranking</h2>
             <p class="top">Aquí están los mejores jugadores clasificados.</p>
-            <section class="contorno">
-                <h3 class="top">Top 5</h3>
-                <ul id="rankingList">
-                    <!-- El contenido del ranking se llenará aquí -->
-                </ul>
+            <h3 class="topp">Top 5</h3>
+            <section id="rank" class="contorno"> <!-- Aquí se llenará con los datos del ranking -->
             </section>
         </div>
     </div>
@@ -170,12 +167,12 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
     const scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
     scanner.addListener('scan', function(content) {
         if (content === `qr${ordenEsperado}`) {
-            alert("Escaneado correctamente!");
+            
             fetch(`success.php?orden=${ordenEsperado}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        window.location.reload();
+                        window.location.href = "../../pregunta/page/pregunta.php";
                     } else {
                         alert("Error al actualizar el orden.");
                     }
