@@ -4,7 +4,7 @@ let questions = [];
 const getQuestions = async () => {
     try {
         // Realiza la petición a tu API
-        const res = await fetch("http://20.206.202.123:8000/generate-question", {referrerPolicy: "unsafe-url" });
+        const res = await fetch("http://20.206.202.123:8000/generate-question", {referrerPolicy: "unsafe-url"});
         const jsonData = await res.json();
         
         // Parsea el contenido para obtener la pregunta y las respuestas
@@ -65,23 +65,45 @@ const validateAnswer = (selectedButton, selectedOption, correctAnswer) => {
     // Desactivar todas las opciones una vez que se selecciona una
     optionButtons.forEach(button => button.disabled = true);
 
+    // Calcular los puntos basados en el tiempo restante (si la respuesta es correcta)
+    let puntosGanados = 0;
     if (selectedOption === correctAnswer) {
         // Si la opción es correcta, la marcamos en verde
         selectedButton.style.backgroundColor = 'green';
+
+        // Calcular los puntos según el tiempo restante (redondeado a entero)
+        puntosGanados = Math.round((timeLeft / totalTime) * 100); // Suma entre 0 y 100 puntos en base al tiempo
     } else {
         // Si es incorrecta, la marcamos en rojo
         selectedButton.style.backgroundColor = 'red';
-
-        // También mostramos la correcta en verde
-        optionButtons.forEach(button => {
-            if (button.textContent === correctAnswer) {
-                button.style.backgroundColor = 'green';
-            }
-        });
+        puntosGanados = +0; // No suma 
     }
+
+    // Enviar los puntos al servidor para actualizar el puntaje
+    actualizarPuntaje(puntosGanados);
 
     // Mostrar el botón "Continuar" una vez que se ha seleccionado una respuesta
     nextQuestionBtn.style.display = 'block';
+};
+
+// Función para enviar el puntaje al servidor (PHP)
+const actualizarPuntaje = (puntosGanados) => {
+    fetch("../page/actualizar_puntaje.php", {  // Asegúrate de que la ruta sea correcta
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ puntaje: puntosGanados })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log("Puntaje actualizado:", puntosGanados);
+        } else {
+            console.error("Error al actualizar el puntaje:", data.error);
+        }
+    })
+    .catch(error => console.error("Error en la petición:", error));
 };
 
 // Función para pasar a la siguiente pregunta (si tienes más de una)
@@ -90,7 +112,7 @@ const nextQuestion = () => {
     if (currentQuestionIndex < questions.length) {
         renderQuestion(questions[currentQuestionIndex]);
     } else {
-        location.href ="../../../pages/leerQr/page/leerQr.php"
+        location.href ="../../../pages/leerQr/page/leerQr.php";
     }
 };
 

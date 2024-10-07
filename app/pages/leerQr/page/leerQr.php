@@ -1,7 +1,6 @@
 <?php
 // Iniciar la sesión
 session_start();
-
 // Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['usuario'])) {
     // Si no ha iniciado sesión, redirigir al login
@@ -13,6 +12,10 @@ if (!isset($_SESSION['usuario'])) {
 $nombre = $_SESSION['nombre'];
 $puntaje = $_SESSION['puntaje'];
 $usuario = $_SESSION['usuario'];
+
+// Inicializar el orden
+$orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
+
 
 ?>
 
@@ -26,6 +29,7 @@ $usuario = $_SESSION['usuario'];
     <script defer src="../../../components/ranking/ranking.js"></script>
     <link rel="stylesheet" href="../../../components/hamburguesa/menu.css">
     <link rel="stylesheet" href="../css/qr-styles.css">
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
 </head> 
 <body class="bodyQR">
@@ -66,16 +70,17 @@ $usuario = $_SESSION['usuario'];
     <section class="QR">
     <div class="container">
         <div class="contvideo">
-                <video class="video" id="video" autoplay playsinline muted></video>
+        <video id="preview" class="video"></video>
         </div>
-                <!-- Botón para iniciar el escaneo del QR -->
-                <button class="botonqr" id="btn-start-scan">Iniciar Escaneo</button>
-        <!-- Botón para detener el escaneo -->
-                <button class="botonqr" id="btn-stop-scan" style="display: none;">Detener Escaneo</button>
-        <!-- Mensaje de error si el QR es incorrecto -->
-                <p id="error-msg">Código QR incorrecto. Inténtelo de nuevo.</p>
+
+                <button class="botonqr" id="open-camera">Iniciar Escaneo</button>
+
+                <button class="botonqr" id="close-camara" style="display: none;">Detener Escaneo</button>
+                <div>
+                <p id="error-msg" style="display: none;">Código QR incorrecto. Inténtelo de nuevo.</p>
+                </div>
     </div>
-                <canvas class="video2" id="canvas"></canvas>
+
     </section>
     </div>
     </main>
@@ -84,7 +89,11 @@ $usuario = $_SESSION['usuario'];
         <div class="modal-content">
           <span class="close">&times;</span>
           <h2>Cómo Jugar</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Instrucciones detalladas sobre cómo jugar el juego.</p>
+            <p>Este juego consiste en ir escaneando codigos QR alrededor del campus, y responder preguntas aleatorias relacionadas a los principales temas de la ONIET.
+            Al responder correctamente, el jugador obtendrá puntos. De lo contrario, si responde mal, o se acaba el tiempo no sumara nada.
+            En ambos escenarios, el jugador avanzara hacia el proximo QR gracias a una pista revelada despues de responder.
+            Al final del juego, se mostrara el ranking general y se decidiran los ganadores.</p>
         </div>
       </div>
     
@@ -92,7 +101,10 @@ $usuario = $_SESSION['usuario'];
         <div class="modal-content">
           <span class="close">&times;</span>
           <h2>Estrategias</h2>
-          <p>Las mejores estrategias para mejorar tu juego. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Consejos y estrategias para mejorar tu puntuación.</p>
+            <p>1. Leer bien las pistas. Estas son información valiosa para ayudarte a encontrar los codigos.</p>
+            <p>2. Responder en tiempo. Si respondes antes, ganaras mas puntos.</p>
+            <p>3. Cuidar tu tiempo. No dejes que el tiempo se agote antes de responder.</p>
         </div>
       </div>
     
@@ -100,7 +112,22 @@ $usuario = $_SESSION['usuario'];
         <div class="modal-content">
           <span class="close">&times;</span>
           <h2>Sobre Nosotros</h2>
-          <p>Conoce más sobre nuestro equipo y nuestra misión. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Información acerca del equipo detrás del juego.</p>
+            <p>Alumnos de tercer año de la carrera de Ingenieria Informatica de la Universidad Blas Pascal</p>
+            <p>Alumnos:
+                <ul class="alumnos">
+                    <li>Calzada Tomas</li>
+                    <li>Douglas Octavio</li>
+                    <li>Escalante Tomas</li>
+                    <li>Galvan Ignacio</li>
+                    <li>Gentilli Santiago</li>
+                    <li>Lucero Franco</li>
+                </ul>
+                Profesor:
+                <ul class="profesor">
+                    <li>Funes Gustavo</li>
+                </ul>     
+            </p>
         </div>
       </div>
     
@@ -108,9 +135,9 @@ $usuario = $_SESSION['usuario'];
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2 class="top">Ranking</h2>
-            <p class="top">Aquí están los mejores jugadores clasificados. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p class="top">Aquí están los mejores jugadores clasificados.</p>
             <section class="contorno">
-                <h3 class="top">Top 10</h3>
+                <h3 class="top">Top 5</h3>
                 <ul id="rankingList">
                     <!-- El contenido del ranking se llenará aquí -->
                 </ul>
@@ -128,7 +155,59 @@ $usuario = $_SESSION['usuario'];
             
         </div>
     </div>
-    <script src="../js/apiqr.js"></script>
-    <script src="../js/qr.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    // Pasar el valor de PHP a una variable de JavaScript
+    const ordenEsperado = <?php echo json_encode($orden); ?>;
+
+    fetch('get_pista.php?orden=' + ordenEsperado)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('pista').innerText = data.pista;
+        });
+
+    const scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    scanner.addListener('scan', function(content) {
+        if (content === `qr${ordenEsperado}`) {
+            alert("Escaneado correctamente!");
+            fetch(`success.php?orden=${ordenEsperado}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload();
+                    } else {
+                        alert("Error al actualizar el orden.");
+                    }
+                });
+        } else {
+            document.getElementById('error-msg').style.display = 'inline';
+        }
+    });
+    document.getElementById('close-camara').addEventListener('click', function() {
+        scanner.stop();
+        document.getElementById('preview').style.display = 'none';
+        document.getElementById('open-camera').style.display = 'inline';
+        document.getElementById('close-camara').style.display = 'none';
+        document.getElementById('error-msg').style.display = 'none';
+    });
+
+    document.getElementById('open-camera').addEventListener('click', function() {
+        Instascan.Camera.getCameras().then(function(cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+                document.getElementById('preview').style.display = 'inline';
+                document.getElementById('open-camera').style.display = 'none';
+                document.getElementById('close-camara').style.display = 'inline';
+
+            } else {
+                console.error('No hay cámaras disponibles.');
+            }
+        }).catch(function(e) {
+            console.error(e);
+        });
+    });
+});
+    </script>
 </body>
 </html>

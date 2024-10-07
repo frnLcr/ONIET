@@ -1,19 +1,37 @@
 <?php
-// Iniciar la sesión
 session_start();
 
-// Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['usuario'])) {
-    // Si no ha iniciado sesión, redirigir al login
-    header("Location: ../../../../index.html");
+    echo json_encode(["success" => false, "error" => "Usuario no logueado"]);
     exit;
 }
-// Obtener el nombre del usuario y el puntaje de la sesión
-$nombre = $_SESSION['nombre'];
-$puntaje = $_SESSION['puntaje'];
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "resolutions_qrproyecto";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+
 $usuario = $_SESSION['usuario'];
 
+// Consulta para obtener el puntaje actual del usuario
+$sql = "SELECT puntaje FROM usuarios WHERE usuario = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $usuario);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$puntaje = $row['puntaje'] ?? 0; // Si no hay puntaje, asigna 0
+
+$stmt->close();
+$conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -78,15 +96,22 @@ $usuario = $_SESSION['usuario'];
         <div class="modal-content">
             <h2>Cómo Jugar</h2>
             <p>Instrucciones detalladas sobre cómo jugar el juego.</p>
+            <p>Este juego consiste en ir escaneando codigos QR alrededor del campus, y responder preguntas aleatorias relacionadas a los principales temas de la ONIET.
+            Al responder correctamente, el jugador obtendrá puntos. De lo contrario, si responde mal, o se acaba el tiempo no sumara nada.
+            En ambos escenarios, el jugador avanzara hacia el proximo QR gracias a una pista revelada despues de responder.
+            Al final del juego, se mostrara el ranking general y se decidiran los ganadores.</p>
         </div>
     </div>
 
     <!-- Modal: Estrategias -->
     <div id="modalEstrategias" class="modal">
-        <span class="close">&times;</span>
+        <span class="close">&times;</spa    n>
         <div class="modal-content">
             <h2>Estrategias</h2>
             <p>Consejos y estrategias para mejorar tu puntuación.</p>
+            <p>1. Leer bien las pistas. Estas son información valiosa para ayudarte a encontrar los codigos.</p>
+            <p>2. Responder en tiempo. Si respondes antes, ganaras mas puntos.</p>
+            <p>3. Cuidar tu tiempo. No dejes que el tiempo se agote antes de responder.</p>
         </div>
     </div>
 
@@ -96,6 +121,21 @@ $usuario = $_SESSION['usuario'];
         <div class="modal-content">
             <h2>Sobre Nosotros</h2>
             <p>Información acerca del equipo detrás del juego.</p>
+            <p>Alumnos de tercer año de la carrera de Ingenieria Informatica de la Universidad Blas Pascal</p>
+            <p>Alumnos:
+                <ul class="alumnos">
+                    <li>Calzada Tomas</li>
+                    <li>Douglas Octavio</li>
+                    <li>Escalante Tomas</li>
+                    <li>Galvan Ignacio</li>
+                    <li>Gentilli Santiago</li>
+                    <li>Lucero Franco</li>
+                </ul>
+                Profesor:
+                <ul class="profesor">
+                    <li>Funes Gustavo</li>
+                </ul>     
+            </p>
         </div>
     </div>
 
