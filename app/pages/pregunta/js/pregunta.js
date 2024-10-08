@@ -4,11 +4,12 @@ let questions = [];
 const getQuestions = async () => {
     try {
         // Realiza la petición a tu API
-        const res = await fetch("http://20.206.202.123:8000/generate-question"/*, {referrerPolicy: "unsafe-url"}*/);
+const res = await fetch("https://us-central1-klearty.cloudfunctions.net/funcion-pregunta");
+
         const jsonData = await res.json();
         
         // Parsea el contenido para obtener la pregunta y las respuestas
-        const parsedContent = JSON.parse(jsonData.content);
+        const parsedContent = JSON.parse(jsonData.response);
 
         questions = [{
             pregunta: parsedContent.pregunta,
