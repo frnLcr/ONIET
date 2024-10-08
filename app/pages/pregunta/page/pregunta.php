@@ -11,7 +11,7 @@ if (!isset($_SESSION['usuario'])) {
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "resolutions_qrproyecto";
+$dbname = "resolution_qrproyecto";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
