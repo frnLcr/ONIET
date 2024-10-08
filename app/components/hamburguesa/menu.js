@@ -60,7 +60,8 @@ closeButtons.forEach(button => {
 
 // Cerrar la modal si se hace clic fuera de la ventana modal
 window.addEventListener('click', (event) => {
-    if (event.target.classList.contains('modal')) {
+    if (event.target.classList && event.target.classList.contains('modal')) {
         event.target.style.display = 'none';
     }
 });
+

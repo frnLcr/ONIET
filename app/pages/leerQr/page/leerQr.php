@@ -85,7 +85,7 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
     </div>
     </main>
     <!-- Modales -->
-    <div id="modal" class="modal">
+    <div id="modalComoJugar" class="modal">
         <div class="modal-content">
           <span class="close">&times;</span>
           <h2>Cómo Jugar</h2>
@@ -95,7 +95,7 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
             En ambos escenarios, el jugador avanzara hacia el proximo QR gracias a una pista revelada despues de responder.
             Al final del juego, se mostrara el ranking general y se decidiran los ganadores.</p>
         </div>
-      </div>
+    </div>
     
       <div id="modalEstrategias" class="modal">
         <div class="modal-content">

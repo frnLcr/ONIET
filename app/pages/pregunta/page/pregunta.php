@@ -11,7 +11,7 @@ if (!isset($_SESSION['usuario'])) {
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "resolution_qrproyecto";
+$dbname = "resolutions_qrproyecto";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -109,7 +109,7 @@ $conn->close();
 
     <!-- Modal: Estrategias -->
     <div id="modalEstrategias" class="modal">
-        <span class="close">&times;</spa    n>
+        <span class="close">&times;</span>
         <div class="modal-content">
             <h2>Estrategias</h2>
             <p>Consejos y estrategias para mejorar tu puntuación.</p>
