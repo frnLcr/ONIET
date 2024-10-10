@@ -4,7 +4,7 @@ let questions = [];
 const getQuestions = async () => {
     try {
         // Realiza la petición a tu API
-const res = await fetch("https://us-central1-klearty.cloudfunctions.net/funcion-pregunta");
+const res = await fetch("https://southamerica-west1-klearty.cloudfunctions.net/funcion-pregunta-2");
 
         const jsonData = await res.json();
         

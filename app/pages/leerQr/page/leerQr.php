@@ -17,6 +17,7 @@ $usuario = $_SESSION['usuario'];
 $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
 
 
+
 ?>
 
 <!DOCTYPE html>
@@ -159,9 +160,18 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
             const ordenEsperado = <?php echo json_encode($orden); ?>;
 
             fetch('get_pista.php?orden=' + ordenEsperado)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error en la respuesta del servidor");
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     document.getElementById('pista').innerText = data.pista;
+                })
+                .catch(error => {
+                    console.error("Error al obtener la pista:", error);
+                    document.getElementById('pista').innerText = "No se pudo obtener la pista";
                 });
 
             const qrCodeSuccessCallback = (decodedText, decodedResult) => {
