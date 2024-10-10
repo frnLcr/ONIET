@@ -1,35 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./app/pages/login/css/login-styles.css">
-    <title>Iniciar Sesión</title>
+    <title>ONIET - Iniciar Sesión</title>
+
 </head>
+
 <body class="bodymenu">
-    <div class="login" id="loginForm">
-        <div class="login-header">
-            <h2>Login</h2>
+    <div>
+        <div class="login" id="loginForm">
+            <div class="login-header">
+                <img src="./public/images/oniet-logo.png" alt="ONIET logo" style="width: 150px;">
+                <h2>Bienvenido</h2>
+            </div>
+            <form id="login-form" class="login-form" action="./app/pages/login/page/login.php" method="POST">
+                <div class="login-labels">
+                    <label for="usuario">Usuario</label>
+                    <input type="text" id="usuario" name="usuario" required placeholder="Usuario">
+                </div>
+                <div class="login-labels">
+                    <label for="dni">DNI</label>
+                    <input type="text" id="dni" name="dni" required placeholder="DNI" inputmode="numeric" maxlength="8">
+                </div>
+                <button type="submit" class="submit-btn">Entrar</button>
+            </form>
+            <div style="display: flex; justify-content: space-between; align-items: center; ">
+                <a class="link" href="http://www.ubp.edu.ar" target="_blank">
+                    <img src="./public/images/ubp-white.jpg" alt="logo blas pascal" style: {width:"241px", height="50px" }>
+                </a>
+                <a href="https://platform.openai.com/docs/api-reference/introduction"><img  src="./public/images/openia-logo.png" alt="openia-logo" style="width:141px; height:30px ;"></a>
+            </div>
+            <div id="message" style="display: none; text-align: center; padding: 1.25rem;"></div>
+
         </div>
-        <form id="login-form" class="login-form" action="./app/pages/login/page/login.php" method="POST">
-            <div class="login-labels">
-                <label for="nombre">Usuario</label>
-                <input type="text" id="usuario" name="usuario" required placeholder="Ingrese su Usuario">
-            </div>
-            <div class="login-labels">
-                <label for="dni">DNI</label>
-                <input type="text" id="dni" name="dni" required placeholder="Ingrese su DNI" maxlength="8">
-            </div>
-            <button type="submit" class="submit-btn">Iniciar</button>   
-        </form>
-    
-    <div id="message" style="display: none; text-align: center; padding: 1.25rem;"></div> <!-- Mensaje de éxito o error -->
-    </div>
-    </div>
-    <div class="logod">
-        <img class="logologin ms-5" src="./public/images/ubp-oniet.png" alt="logo de ubp">
-        <img class="chat ms-5" src="./public/images/openia-logo.png" alt="logo de openia">
+        <div style="text-align: center; margin-top: 5%;">
+            2024 ©
+            <a class="link" href="http://www.ubp.edu.ar" target="_blank">Universidad Blas Pascal</a> - ONIET.
+        </div>
     </div>
     <script src="./app/pages/login/js/login.js"></script>
-</body> 
+</body>
+
 </html>
