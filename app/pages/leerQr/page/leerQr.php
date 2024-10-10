@@ -1,6 +1,7 @@
 <?php
 // Iniciar la sesión
 session_start();
+
 // Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['usuario'])) {
     // Si no ha iniciado sesión, redirigir al login
@@ -38,7 +39,6 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
     <header class="cabeza">
         <div class="CP">
             <h3 class="puntos"><?php echo $puntaje; ?></h3>
-            <h3 class="puntos"><?php echo $usuario; ?></h3> <!-- Muestra el nombre del usuario -->
         </div>
         <div></div>
         <img class="logoheader" src="../../../../public/images/oniet-logo.png" alt="Logo del sitio" class="logo">
@@ -65,17 +65,22 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
     </header>
 
     <main class="leeqr">
-        <section class="psita">
+    <section class="psita">
+            <p class="estilo-msj">PISTA:</p>
             <h1 id=pista></h1>
         </section>
+        <div style=" text-align: center; color: #5C0000">
+            <p >Escanee el QR para ver la siguiente pregunta!</p>
+        </div>
         <div class="conteQr">
             <section class="QR">
                 <div class="container">
+                  
+                    <button class="botonqr" id="open-camera">Iniciar Escaneo</button>
+                    <button class="botonqr" id="close-camara" style="display: none;">Detener Escaneo</button>
                     <div id="preview" style="width: 100%; height: auto; display: none;">
                         <video id="video" style="width: 100%; height: auto;"></video>
                     </div>
-                    <button class="botonqr" id="open-camera">Iniciar Escaneo</button>
-                    <button class="botonqr" id="close-camara" style="display: none;">Detener Escaneo</button>
                     <div>
                         <p id="error-msg" style="display: none;">Código QR incorrecto. Inténtelo de nuevo.</p>
                     </div>

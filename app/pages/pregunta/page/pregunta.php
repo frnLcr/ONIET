@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 // Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['usuario'])) {
     // Si no ha iniciado sesión, redirigir al login
@@ -53,7 +52,6 @@ $conn->close();
     <header class="cabeza">
         <div class="CP">
         <h3 class="puntos"><?php echo $puntaje?></h3>
-         <h3 class="puntos"><?php echo $usuario; ?></h3> 
         </div>
         <div></div>
           <img class="logoheader" src="../../../../public/images/oniet-logo.png" alt="Logo del sitio" class="logo">

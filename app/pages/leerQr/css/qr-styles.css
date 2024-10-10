@@ -16,6 +16,14 @@
         border-radius: 20px;
 
     }
+
+    .estilo-msj {
+        font-size: 20px;
+        font-weight: bold;
+        color: #5C0000;
+        margin-left: 10px;
+    }
+
     .conteQr{
         width: 100%;
         display: flex;
@@ -65,9 +73,6 @@
 
 }
 
-
-
-
 #error-msg{
 display: none;
 padding: 10px 0 25px 0;
@@ -98,7 +103,7 @@ color: red;
             border: 3px solid #5C0000 !important;
             .container{
                 width: 100% !important;
-                height: auto !important;
+                height: 400px !important;
                 .botonqr{
                     height: 50px !important;
                     width: 200px !important;
@@ -122,3 +127,8 @@ color: red;
 
 }
 
+.mensaje{
+    left: 50%;
+    text-align: center;
+    color: #5C0000;
+}
