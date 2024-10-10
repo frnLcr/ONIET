@@ -20,7 +20,9 @@ if ($conn->connect_error) {
 
 $usuario = $_SESSION['usuario'];
 $puntaje = $_SESSION['puntaje'];
-$usuario = $_SESSION['usuario'];
+$nombre = $_SESSION['nombre'];
+$dni = $_SESSION['dni'];
+$mail= $_SESSION['mail'];
 
 // Consulta para obtener el puntaje actual del usuario
 $sql = "SELECT puntaje FROM usuarios WHERE usuario = ?";
@@ -46,6 +48,7 @@ $conn->close();
     <link rel="stylesheet" href="../css/pregunta-styles.css">
     <script defer src="../../../components/ranking/ranking.js"></script>
     <script defer src="../../../components/hamburguesa/menu.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
 <body>
@@ -70,6 +73,7 @@ $conn->close();
                   <li><a href="#" id="estrategiasBtn">ESTRATEGIAS</a></li>
                   <li><a href="#" id="sobreNosotrosBtn">SOBRE NOSOTROS</a></li>
                   <li><a href="#" id="rankingBtn">RANKING</a></li>
+                  <li><a href="#" id="perfilBtn">PERFIL</a></li>
                   <li><a href="#" id="Cerrarsesión">CERRAR SESIÓN</a></li>
               </ul>
           </nav>
@@ -148,10 +152,24 @@ $conn->close();
             <h2 class="top">Ranking</h2>
             <p class="top">Aquí están los mejores jugadores clasificados.</p>
             <h3 class="topp">Top 5</h3>
-            <section id="rank" class="contorno"> <!-- Aquí se llenará con los datos del ranking -->
-            </section>
+            <div id="topp"></div>
+            
         </div>
     </div>
+
+    <div id="modalPerfil" class="modal">
+        <span class="close">&times;</span>
+        <div class="modal-content">
+            <h2 class="topp"> MIS DATOS </h2>
+            <p>Nombre de usuario: <?php echo $usuario; ?></p>
+            <p>Nombre y Apellido: <?php echo $nombre; ?></p>
+            <p>Puntaje: <?php echo $puntaje; ?></p>
+            <p>Dni: <?php echo $dni; ?></p>
+            <p>Mail: <?php echo $mail; ?></p>
+        </div>
+    </div>
+    </div>
+
     <div id="modalcerrarsesion" class="modal">
         <span class="close">&times;</span>
         <div class="modal-content">

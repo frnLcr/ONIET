@@ -36,11 +36,15 @@ if (!empty($usuario) && !empty($dni)) {
         $row = $result->fetch_assoc();
         $nombre = $row['nombre']; // Este es el nombre completo que mostrarás
         $puntaje = $row['puntaje'];
+        $dni = $row['dni'];
+        $mail = $row['mail'];
 
         // Guardar el nombre de usuario y puntaje en la sesión
         $_SESSION['nombre'] = $nombre;
         $_SESSION['puntaje'] = $puntaje;
         $_SESSION['usuario'] = $usuario;
+        $_SESSION['dni'] = $dni;
+        $_SESSION['mail'] = $mail;
 
         // Enviar respuesta como JSON
         echo json_encode(["success" => true, "nombre" => $nombre]);

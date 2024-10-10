@@ -13,6 +13,8 @@ if (!isset($_SESSION['usuario'])) {
 $nombre = $_SESSION['nombre'];
 $puntaje = $_SESSION['puntaje'];
 $usuario = $_SESSION['usuario'];
+$dni = $_SESSION['dni'];
+$mail = $_SESSION['mail'];
 
 // Inicializar el orden
 $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
@@ -33,6 +35,8 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
     <link rel="stylesheet" href="../../../components/hamburguesa/menu.css">
     <link rel="stylesheet" href="../css/qr-styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js" integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 
 <body class="bodyQR">
@@ -58,6 +62,7 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
                     <li><a href="#" id="estrategiasBtn">ESTRATEGIAS</a></li>
                     <li><a href="#" id="sobreNosotrosBtn">SOBRE NOSOTROS</a></li>
                     <li><a href="#" id="rankingBtn">RANKING</a></li>
+                    <li><a href="#" id="perfilBtn">PERFIL</a></li>
                     <li><a href="#" id="Cerrarsesión">CERRAR SESIÓN</a></li>
                 </ul>
             </nav>
@@ -142,8 +147,20 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
             <h2 class="top">Ranking</h2>
             <p class="top">Aquí están los mejores jugadores clasificados.</p>
             <h3 class="topp">Top 5</h3>
-            <section id="rank" class="contorno"> <!-- Aquí se llenará con los datos del ranking -->
-            </section>
+            <div id="topp"></div>
+            
+        </div>
+    </div>
+
+    <div id="modalPerfil" class="modal">
+        <span class="close">&times;</span>
+        <div class="modal-content">
+            <h2 class="topp"> MIS DATOS </h2>
+            <p>Nombre de usuario: <?php echo $usuario; ?></p>
+            <p>Nombre y Apellido: <?php echo $nombre; ?></p>
+            <p>Puntaje: <?php echo $puntaje; ?></p>
+            <p>Dni: <?php echo $dni; ?></p>
+            <p>Mail: <?php echo $mail; ?></p>
         </div>
     </div>
 
@@ -271,6 +288,10 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
                 });
             });
         });
+
+        $(document).ready(function(){
+    $("#topp").load("../../pregunta/page/usuarios_top.php");
+});
     </script>
 
 </body>

@@ -213,3 +213,7 @@ getQuestions();
 
 // Event Listener para el botón de "Continuar"
 document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestion);
+
+$(document).ready(function(){
+    $("#topp").load("../page/usuarios_top.php");
+});

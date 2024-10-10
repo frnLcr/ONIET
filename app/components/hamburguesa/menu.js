@@ -18,6 +18,7 @@ const comoJugarBtn = document.getElementById('comoJugarBtn');
 const estrategiasBtn = document.getElementById('estrategiasBtn');
 const sobreNosotrosBtn = document.getElementById('sobreNosotrosBtn');
 const rankingBtn = document.getElementById('rankingBtn');
+const perfilBtn = document.getElementById('perfilBtn');
 const Cerrarsesión = document.getElementById('Cerrarsesión');
 
 // Selección de las modales
@@ -25,6 +26,7 @@ const modalComoJugar = document.getElementById('modalComoJugar');
 const modalEstrategias = document.getElementById('modalEstrategias');
 const modalSobreNosotros = document.getElementById('modalSobreNosotros');
 const modalRanking = document.getElementById('modalRanking');
+const modalPerfil = document.getElementById('modalPerfil');
 const modmodalcerrarsesion = document.getElementById('modalcerrarsesion');
 
 // Selección de los botones para cerrar las modales
@@ -44,6 +46,9 @@ sobreNosotrosBtn.addEventListener('click', () => {
 });
 rankingBtn.addEventListener('click', () => {
     modalRanking.style.display = 'block';
+});
+perfilBtn.addEventListener('click', () => {
+    modalPerfil.style.display = 'block';
 });
 Cerrarsesión.addEventListener('click', () => {
     modmodalcerrarsesion.style.display = 'block';
