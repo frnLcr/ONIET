@@ -25,7 +25,7 @@ Este es un videojuego web desarrollado para los alumnos de la ONIET en la Univer
 - Los jugadores deben estar autenticados con su usuario y DNI.
 - Las preguntas solo son accesibles al escanear el QR correcto en el orden establecido.
 - Cada pregunta debe responderse antes de escanear el siguiente código QR.
-- Si un jugador no responde correctamente una pregunta, no podrá avanzar al siguiente QR.
+- Si un jugador no escanea correctamente el QR especificado, no podrá avanzar con el siguiente QR.
 - El tiempo límite para el juego es de **2 horas**.
 
 ## Instalación
