@@ -4,7 +4,7 @@ let questions = [];
 const getQuestions = async () => {
     try {
         // Realiza la petición a tu API
-const res = await fetch("https://southamerica-west1-klearty.cloudfunctions.net/funcion-pregunta-2");
+        const res = await fetch("https://southamerica-west1-klearty.cloudfunctions.net/funcion-pregunta-2");
 
         const jsonData = await res.json();
         
@@ -71,13 +71,18 @@ const validateAnswer = (selectedButton, selectedOption, correctAnswer) => {
     if (selectedOption === correctAnswer) {
         // Si la opción es correcta, la marcamos en verde
         selectedButton.style.backgroundColor = 'green';
-
-        // Calcular los puntos según el tiempo restante (redondeado a entero)
         puntosGanados = Math.round((timeLeft / totalTime) * 100); // Suma entre 0 y 100 puntos en base al tiempo
     } else {
         // Si es incorrecta, la marcamos en rojo
         selectedButton.style.backgroundColor = 'red';
-        puntosGanados = +0; // No suma 
+        puntosGanados = +0; // No suma
+
+        // Mostrar la correcta en verde
+        optionButtons.forEach(button => {
+            if (button.textContent === correctAnswer) {
+                button.style.backgroundColor = 'green';
+            }
+        });
     }
 
     // Enviar los puntos al servidor para actualizar el puntaje
@@ -89,7 +94,7 @@ const validateAnswer = (selectedButton, selectedOption, correctAnswer) => {
 
 // Función para enviar el puntaje al servidor (PHP)
 const actualizarPuntaje = (puntosGanados) => {
-    fetch("../page/actualizar_puntaje.php", {  // Asegúrate de que la ruta sea correcta
+    fetch("../page/actualizar_puntaje.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -107,7 +112,7 @@ const actualizarPuntaje = (puntosGanados) => {
     .catch(error => console.error("Error en la petición:", error));
 };
 
-// Función para pasar a la siguiente pregunta (si tienes más de una)
+// Función para pasar a la siguiente pregunta
 const nextQuestion = () => {
     currentQuestionIndex++;
     if (currentQuestionIndex < questions.length) {
@@ -123,20 +128,18 @@ let timerInterval;
 const timerElement = document.getElementById('timer');
 const progressCircle = document.getElementById('progress-circle');
 const timerNumber = document.getElementById('timer-number');
-const timeOutMessage = document.getElementById('time-out-message'); // Seleccionamos el mensaje de "Tiempo Agotado"
+const timeOutMessage = document.getElementById('time-out-message');
 
-const totalTime = 30; // Tiempo total para el temporizador
-const radius = 68; // Radio del círculo
-const circumference = 2 * Math.PI * radius; // Circunferencia del círculo
+const totalTime = 30;
+const radius = 68;
+const circumference = 2 * Math.PI * radius;
 progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
 progressCircle.style.strokeDashoffset = 0;
 
-// Función para ocultar el mensaje de tiempo agotado
 const hideTimeOutMessage = () => {
     timeOutMessage.style.display = 'none';
 };
 
-// Función para mostrar el mensaje de tiempo agotado
 const showTimeOutMessage = () => {
     timeOutMessage.style.display = 'block';
 };
@@ -150,68 +153,55 @@ const interpolateColor = (startColor, endColor, factor) => {
     return `rgb(${result.join(',')})`;
 };
 
-// Colores inicial (verde) y final (rojo) en formato RGB
 const startColor = [0, 255, 0]; // Verde
 const endColor = [255, 0, 0];   // Rojo
 
 // Función para actualizar el temporizador
 const updateTimer = () => {
-    // Actualizamos el número en el centro del círculo
     timerNumber.textContent = Math.ceil(timeLeft);
 
-    // Calculamos el progreso restante en porcentaje
     const offset = circumference - (timeLeft / totalTime) * circumference;
     progressCircle.style.strokeDashoffset = offset;
 
-    // Calcula el factor en base al tiempo restante
-    const factor = 1 - (timeLeft / totalTime); // Va de 0 (todo verde) a 1 (todo rojo)
-
-    // Interpola entre verde y rojo
+    const factor = 1 - (timeLeft / totalTime);
     const currentColor = interpolateColor(startColor, endColor, factor);
     progressCircle.style.stroke = currentColor;
 
-    // Detenemos el temporizador cuando el tiempo llegue a 0
     if (timeLeft <= 0) {
         clearInterval(timerInterval);
-        showTimeOutMessage(); // Mostrar el mensaje de tiempo agotado
-        timerNumber.textContent = '0'; // Asegurarnos de que el número muestre 0
+        showTimeOutMessage();
+        timerNumber.textContent = '0';
 
-        // Desactivar todas las opciones
         const optionButtons = document.querySelectorAll('.option');
         optionButtons.forEach(button => button.disabled = true);
 
-        // Colorear las respuestas correctamente
         optionButtons.forEach(button => {
             if (button.textContent === questions[currentQuestionIndex].respuesta_correcta) {
-                // Respuesta correcta en verde
                 button.style.backgroundColor = 'green';
             } else {
-                // Respuesta incorrecta en rojo
                 button.style.backgroundColor = 'red';
             }
         });
 
-        // Mostrar el botón "Continuar" cuando se acabe el tiempo
         const nextQuestionBtn = document.getElementById('nextQuestionBtn');
         nextQuestionBtn.style.display = 'block';
 
-        return; // Terminar la ejecución aquí
+        return;
     }
-    timeLeft -= 0.1; // Restamos 0.1 para hacer la transición más fluida
+    timeLeft -= 0.1;
 };
 
 // Iniciar el temporizador
 const startTimer = () => {
-    timeLeft = totalTime; // Reinicia el tiempo a 30 segundos
-    hideTimeOutMessage(); // Oculta el mensaje de tiempo agotado al comenzar
-    updateTimer(); // Actualiza el temporizador al cargar
-    timerInterval = setInterval(updateTimer, 100); // Actualiza cada 100ms para mayor fluidez
+    timeLeft = totalTime;
+    hideTimeOutMessage();
+    updateTimer();
+    timerInterval = setInterval(updateTimer, 100);
 };
 
 // Llamamos a la función para cargar la primera pregunta
 getQuestions();
 
-// Event Listener para el botón de "Continuar"
 document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestion);
 
 $(document).ready(function(){
