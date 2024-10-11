@@ -46,7 +46,6 @@ $conn->close();
     <title>Preguntados</title>
     <link rel="stylesheet" href="../../../components/hamburguesa/menu.css">
     <link rel="stylesheet" href="../css/pregunta-styles.css">
-    <script defer src="../../../components/ranking/ranking.js"></script>
     <script defer src="../../../components/hamburguesa/menu.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 

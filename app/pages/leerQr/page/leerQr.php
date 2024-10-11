@@ -31,7 +31,6 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leer QR</title>
     <script defer src="../../../components/hamburguesa/menu.js"></script>
-    <script defer src="../../../components/ranking/ranking.js"></script>
     <link rel="stylesheet" href="../../../components/hamburguesa/menu.css">
     <link rel="stylesheet" href="../css/qr-styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js" integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
