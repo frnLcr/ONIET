@@ -180,6 +180,38 @@ $conn->close();
             
         </div>
     </div>
-      <script defer src="../js/pregunta.js"></script>
+    <script defer src="../js/pregunta.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    // Botón de "Sí" en el modal de cerrar sesión
+    document.getElementById('confirmacion').addEventListener('click', function() {
+        // Redirigir al archivo logout.php para cerrar la sesión
+        window.location.href = '../../../components/logout/logout.php';
+    });
+
+    // Botón de "No" en el modal de cerrar sesión
+    document.getElementById('negacion').addEventListener('click', function() {
+        // Cerrar el modal y regresar al menú hamburguesa
+        document.getElementById('modalcerrarsesion').style.display = 'none';
+    });
+
+    // Código para abrir y cerrar modales (ya existente en tu código)
+    const modals = document.querySelectorAll('.modal');
+    const closeButtons = document.querySelectorAll('.close');
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            modals.forEach(modal => {
+                modal.style.display = 'none';
+            });
+        });
+    });
+
+    // Abre el modal de cerrar sesión
+    document.getElementById('Cerrarsesión').addEventListener('click', function() {
+        document.getElementById('modalcerrarsesion').style.display = 'block';
+    });
+});
+</script>
 </body>
 </html>

@@ -164,16 +164,15 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
     </div>
 
     <div id="modalcerrarsesion" class="modal">
-        <span class="close">&times;</span>
-        <div class="modal-content">
-            <h2 class="top">Cerrar sesión</h2>
-            <section class="cerrarsesion">
-                <button class="logout" id="confirmacion">Si</button>
-                <button class="logout" id="negacion">No</button>
-            </section>
-
-        </div>
+    <span class="close">&times;</span>
+    <div class="modal-content">
+        <h2 class="top">Cerrar sesión</h2>
+        <section class="cerrarsesion">
+            <button class="logout" id="confirmacion">Sí</button>
+            <button class="logout" id="negacion">No</button>
+        </section>
     </div>
+</div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -293,6 +292,38 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
 });
     </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    // Botón de "Sí" en el modal de cerrar sesión
+    document.getElementById('confirmacion').addEventListener('click', function() {
+        // Redirigir al archivo logout.php para cerrar la sesión
+        window.location.href = '../../../components/logout/logout.php';
+    });
+
+    // Botón de "No" en el modal de cerrar sesión
+    document.getElementById('negacion').addEventListener('click', function() {
+        // Cerrar el modal y regresar al menú hamburguesa
+        document.getElementById('modalcerrarsesion').style.display = 'none';
+    });
+
+    // Código para abrir y cerrar modales (ya existente en tu código)
+    const modals = document.querySelectorAll('.modal');
+    const closeButtons = document.querySelectorAll('.close');
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            modals.forEach(modal => {
+                modal.style.display = 'none';
+            });
+        });
+    });
+
+    // Abre el modal de cerrar sesión
+    document.getElementById('Cerrarsesión').addEventListener('click', function() {
+        document.getElementById('modalcerrarsesion').style.display = 'block';
+    });
+});
+</script>
 </body>
 
 </html>
