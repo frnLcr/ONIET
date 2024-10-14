@@ -21,7 +21,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 $puntaje = $data['puntaje'];
 $usuario = $_SESSION['usuario'];
 
-$sql = "UPDATE usuarios SET puntaje = puntaje + ? WHERE usuario = ?";
+$sql = "UPDATE USUARIOS SET puntaje = puntaje + ? WHERE usuario = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("is", $puntaje, $usuario);
 

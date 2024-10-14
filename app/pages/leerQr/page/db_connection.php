@@ -7,6 +7,9 @@ $dbname = "resolution_qrproyecto"; // Nombre de la base de datos
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
 
+$conn->set_charset("utf8mb4");
+
+
 // Comprobar la conexión
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);

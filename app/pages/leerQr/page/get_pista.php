@@ -9,6 +9,15 @@ if (!$conn) {
 
 $orden = isset($_GET['orden']) ? intval($_GET['orden']) : 1;
 
+// Número total de pistas (en este caso, 5)
+$total_pistas = 15;
+
+// Si el orden es mayor que el total de pistas, reiniciar a 1
+if ($orden > $total_pistas) {
+    $orden = 1;
+}
+
+// Consultar la pista correspondiente al orden
 $query = "SELECT pista FROM QRS WHERE orden = ?";
 $stmt = $conn->prepare($query);
 if ($stmt === false) {

@@ -41,7 +41,7 @@ $dni = $_SESSION['dni'];
 $mail = $_SESSION['mail'];
 
 // Consulta para obtener el puntaje actual del usuario
-$sql = "SELECT puntaje FROM usuarios WHERE usuario = ?";
+$sql = "SELECT puntaje FROM USUARIOS WHERE usuario = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $usuario);
 $stmt->execute();

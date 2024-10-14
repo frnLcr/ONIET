@@ -1,24 +1,45 @@
 let currentQuestionIndex = 0;
 let questions = [];
 
+// Función para obtener las preguntas de la API
 const getQuestions = async () => {
     try {
-        // Realiza la petición a tu API
+        // Hacer la solicitud a la API
         const res = await fetch("https://southamerica-west1-klearty.cloudfunctions.net/funcion-pregunta-2");
-
         const jsonData = await res.json();
-        
-        // Parsea el contenido para obtener la pregunta y las respuestas
-        const parsedContent = JSON.parse(jsonData.response);
 
-        questions = [{
-            pregunta: parsedContent.pregunta,
-            opciones: parsedContent.opciones,
-            respuesta_correcta: parsedContent.respuesta_correcta
-        }];
+        // Intentar parsear el contenido del JSON
+        try {
+            const parsedContent = JSON.parse(jsonData.response);
 
-        // Renderiza la primera pregunta
-        renderQuestion(questions[currentQuestionIndex]);
+            // Validar que el JSON contenga la estructura correcta
+            if (!parsedContent.pregunta || !Array.isArray(parsedContent.opciones) || !parsedContent.respuesta_correcta) {
+                throw new Error("Formato de JSON inválido.");
+            }
+
+            // Verificar que la respuesta correcta esté entre las opciones
+            const hasCorrectAnswer = parsedContent.opciones.includes(parsedContent.respuesta_correcta);
+
+            if (!hasCorrectAnswer) {
+                throw new Error("La respuesta correcta no está entre las opciones.");
+            }
+
+            // Si todo está bien, cargar la pregunta en el juego
+            questions = [{
+                pregunta: parsedContent.pregunta,
+                opciones: parsedContent.opciones,
+                respuesta_correcta: parsedContent.respuesta_correcta
+            }];
+
+            // Renderizar la primera pregunta
+            renderQuestion(questions[0]);
+
+        } catch (parseError) {
+            // En caso de error en el formato del JSON o en la validación, solicitar otra pregunta
+            console.warn("Pregunta malformada o respuesta incorrecta. Solicitando una nueva pregunta...");
+            await getQuestions(); // Volver a llamar a la función para obtener una nueva pregunta
+        }
+
     } catch (error) {
         console.error("Error al obtener la pregunta:", error);
     }
@@ -199,7 +220,7 @@ const startTimer = () => {
     timerInterval = setInterval(updateTimer, 100);
 };
 
-// Llamamos a la función para cargar la primera pregunta
+// Llamar a la función para iniciar la obtención de preguntas
 getQuestions();
 
 document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestion);
@@ -207,5 +228,3 @@ document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestio
 $(document).ready(function(){
     $("#topp").load("../page/usuarios_top.php");
 });
-
-

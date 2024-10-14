@@ -20,7 +20,7 @@ if (!isset($_SESSION['id'])) {
 $id_usuario_actual = $_SESSION['id']; // Obtiene el ID del usuario desde la sesión
 
 // Consulta para obtener los 5 usuarios con mayor puntaje
-$sql_top = "SELECT nombre, puntaje FROM usuarios ORDER BY puntaje DESC LIMIT 5";
+$sql_top = "SELECT nombre, puntaje FROM USUARIOS ORDER BY puntaje DESC LIMIT 5";
 $resultado_top = $conexion->query($sql_top);
 
 // Verificar si hay resultados
@@ -36,7 +36,7 @@ if ($resultado_top->num_rows > 0) {
 }
 
 // Consulta para obtener el puntaje del usuario actual
-$sql_usuario = "SELECT nombre, puntaje FROM usuarios WHERE id = ?";
+$sql_usuario = "SELECT nombre, puntaje FROM USUARIOS WHERE id = ?";
 $stmt = $conexion->prepare($sql_usuario);
 $stmt->bind_param("i", $id_usuario_actual);
 $stmt->execute();

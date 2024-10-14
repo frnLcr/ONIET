@@ -7,7 +7,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 // Define la hora de inicio y fin en formato 'Y-m-d H:i:s'
 $horaInicio = '2024-10-11 11:00:00';  // Fecha y hora de inicio que tú determines
-$horaFin = '2024-10-16 14:45:00';     // Fecha y hora de fin que tú determines
+$horaFin = '2024-10-14 20:45:00';     // Fecha y hora de fin que tú determines
 
 // Convertir las horas de inicio y fin a timestamps
 $timestampInicio = strtotime($horaInicio);
@@ -34,6 +34,14 @@ $mail = $_SESSION['mail'];
 
 // Inicializar el orden
 $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
+
+// Número total de pistas (en este caso, 5)
+$total_pistas = 15;
+
+// Si el orden es mayor que el total de pistas, reiniciar a 1
+if ($orden > $total_pistas) {
+    $orden = 1;
+}
 
 ?>
 
@@ -257,6 +265,8 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
             // Pasar el valor de PHP a una variable de JavaScript
             const ordenEsperado = <?php echo json_encode($orden); ?>;
 
+            console.log('Orden esperado:', ordenEsperado);
+
             fetch('get_pista.php?orden=' + ordenEsperado)
                 .then(response => {
                     if (!response.ok) {
@@ -265,12 +275,14 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
                     return response.json();
                 })
                 .then(data => {
+                    console.log('Respuesta del servidor:', data);
                     document.getElementById('pista').innerText = data.pista;
                 })
                 .catch(error => {
                     console.error("Error al obtener la pista:", error);
                     document.getElementById('pista').innerText = "No se pudo obtener la pista";
                 });
+
 
             html5QrCode = new Html5Qrcode("preview");
 

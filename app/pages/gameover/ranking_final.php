@@ -14,7 +14,7 @@ if ($conexion->connect_error) {
 $usuario_actual = $_SESSION['usuario']; // El usuario actual (usuario de la sesión)
 
 // Consulta para obtener todos los usuarios ordenados por puntaje
-$sql = "SELECT nombre, puntaje, usuario FROM usuarios ORDER BY puntaje DESC";
+$sql = "SELECT nombre, puntaje, usuario FROM USUARIOS ORDER BY puntaje DESC";
 $resultado = $conexion->query($sql);
 
 // Verificar si hay resultados

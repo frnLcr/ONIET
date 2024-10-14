@@ -1,3 +1,19 @@
+<?php
+// Iniciar la sesión
+session_start();
+
+// Conectar a la base de datos
+$conexion = new mysqli("localhost", "root", "", "resolution_qrproyecto");
+
+// Verificar conexión
+if ($conexion->connect_error) {
+    die("Error en la conexión: " . $conexion->connect_error);
+}
+
+// Obtener el usuario actual desde la sesión
+$usuario_actual = $_SESSION['usuario']; // El usuario actual (usuario de la sesión)
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
