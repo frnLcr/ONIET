@@ -10,6 +10,16 @@
 main {
     padding: 20px;
 }
+.cronometroo{
+    background-color: #5c0000;
+    padding: 10px;
+    color: rgb(255, 255, 255);
+    border-radius: 10px;
+    position: fixed;
+    position: absolute;
+    top: 11% ;
+    right: 0 ;
+}
 
 /* Encabezado */
 .cabeza {
@@ -278,4 +288,14 @@ body.menu__active {
         list-style-type: none;
         margin-bottom: 10px;
     }
+}
+
+.msj-pregunta{
+    font-size: 15px;
+    font-weight: bold;
+    color: #5C0000;
+    margin-bottom: 10px;
+    padding: 10px;
+    text-align: center;
+    margin-top: 10px;
 }

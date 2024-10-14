@@ -1,9 +1,25 @@
 <?php
 session_start();
+
+// Establecer la zona horaria de Buenos Aires, Argentina
+date_default_timezone_set('America/Argentina/Buenos_Aires');
+
+// Define la hora de inicio y fin en formato 'Y-m-d H:i:s'
+$horaInicio = '2024-10-11 11:00:00';  // Fecha y hora de inicio que tú determines
+$horaFin = '2024-10-16 14:45:00';     // Fecha y hora de fin que tú determines
+
+// Convertir las horas de inicio y fin a timestamps
+$timestampInicio = strtotime($horaInicio);
+$timestampFin = strtotime($horaFin);
+
+// Calcular el tiempo restante en segundos
+$tiempoActual = time();  // Hora actual en el servidor
+$tiempoRestante = $timestampFin - $tiempoActual;
+
 // Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['usuario'])) {
     // Si no ha iniciado sesión, redirigir al login
-    header("Location: ../../../../index.html");
+    header("Location: ../../../../index.php");
     exit;
 }
 
@@ -22,7 +38,7 @@ $usuario = $_SESSION['usuario'];
 $puntaje = $_SESSION['puntaje'];
 $nombre = $_SESSION['nombre'];
 $dni = $_SESSION['dni'];
-$mail= $_SESSION['mail'];
+$mail = $_SESSION['mail'];
 
 // Consulta para obtener el puntaje actual del usuario
 $sql = "SELECT puntaje FROM usuarios WHERE usuario = ?";
@@ -40,6 +56,7 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,35 +67,39 @@ $conn->close();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
+
 <body>
     <header class="cabeza">
         <div class="CP">
-        <h3 class="puntos"><?php echo $puntaje?></h3>
+            <h3 class="puntos"><?php echo $puntaje ?></h3>
         </div>
         <div></div>
-          <img class="logoheader" src="../../../../public/images/oniet-logo.png" alt="Logo del sitio" class="logo">
+        <img class="logoheader" src="../../../../public/images/oniet-logo.png" alt="Logo del sitio" class="logo">
         </div>
-    
+
         <div class="bars__menu">
-          <span class="line1__bars-menu"></span>
-          <span class="line2__bars-menu"></span>
-          <span class="line3__bars-menu"></span>
+            <span class="line1__bars-menu"></span>
+            <span class="line2__bars-menu"></span>
+            <span class="line3__bars-menu"></span>
         </div>
-    
+
         <div class="container__menu">
-          <nav>
-              <ul>
-                  <li><a href="#" id="comoJugarBtn">COMO JUGAR</a></li>
-                  <li><a href="#" id="estrategiasBtn">ESTRATEGIAS</a></li>
-                  <li><a href="#" id="sobreNosotrosBtn">SOBRE NOSOTROS</a></li>
-                  <li><a href="#" id="rankingBtn">RANKING</a></li>
-                  <li><a href="#" id="perfilBtn">PERFIL</a></li>
-                  <li><a href="#" id="Cerrarsesión">CERRAR SESIÓN</a></li>
-              </ul>
-          </nav>
+            <nav>
+                <ul>
+                    <li><a href="#" id="comoJugarBtn">COMO JUGAR</a></li>
+                    <li><a href="#" id="estrategiasBtn">ESTRATEGIAS</a></li>
+                    <li><a href="#" id="sobreNosotrosBtn">SOBRE NOSOTROS</a></li>
+                    <li><a href="#" id="rankingBtn">RANKING</a></li>
+                    <li><a href="#" id="perfilBtn">PERFIL</a></li>
+                    <li><a href="#" id="Cerrarsesión">CERRAR SESIÓN</a></li>
+                </ul>
+            </nav>
         </div>
-      </header>
-      <main>
+    </header>
+    <div class="cronometroo" id="cronometro">
+    </div>
+    <main>
+        <div class="msj-pregunta"> Si la pregunta no carga correctamente, reinicie la pagina porfavor.</div>
         <div class="question-section">
             <div id="time-out-message" class="time-out-message">Tiempo Agotado!!</div>
             <div id="timer" class="timer">
@@ -94,17 +115,17 @@ $conn->close();
                 <button id="nextQuestionBtn" class="next-question-btn">Continuar</button>
             </div>
         </div>
-      </main>
-       <!-- Modal: Cómo Jugar -->
+    </main>
+    <!-- Modal: Cómo Jugar -->
     <div id="modalComoJugar" class="modal">
         <span class="close">&times;</span>
         <div class="modal-content">
             <h2>Cómo Jugar</h2>
             <p>Instrucciones detalladas sobre cómo jugar el juego.</p>
             <p>Este juego consiste en ir escaneando codigos QR alrededor del campus, y responder preguntas aleatorias relacionadas a los principales temas de la ONIET.
-            Al responder correctamente, el jugador obtendrá puntos. De lo contrario, si responde mal, o se acaba el tiempo no sumara nada.
-            En ambos escenarios, el jugador avanzara hacia el proximo QR gracias a una pista revelada despues de responder.
-            Al final del juego, se mostrara el ranking general y se decidiran los ganadores.</p>
+                Al responder correctamente, el jugador obtendrá puntos. De lo contrario, si responde mal, o se acaba el tiempo no sumara nada.
+                En ambos escenarios, el jugador avanzara hacia el proximo QR gracias a una pista revelada despues de responder.
+                Al final del juego, se mostrara el ranking general y se decidiran los ganadores.</p>
         </div>
     </div>
 
@@ -128,18 +149,18 @@ $conn->close();
             <p>Información acerca del equipo detrás del juego.</p>
             <p>Alumnos de tercer año de la carrera de Ingenieria Informatica de la Universidad Blas Pascal</p>
             <p>Alumnos:
-                <ul class="alumnos">
-                    <li>Calzada Tomas</li>
-                    <li>Douglas Octavio</li>
-                    <li>Escalante Tomas</li>
-                    <li>Galvan Ignacio</li>
-                    <li>Gentilli Santiago</li>
-                    <li>Lucero Franco</li>
-                </ul>
-                Profesor:
-                <ul class="profesor">
-                    <li>Funes Gustavo</li>
-                </ul>     
+            <ul class="alumnos">
+                <li>Calzada Tomas</li>
+                <li>Douglas Octavio</li>
+                <li>Escalante Tomas</li>
+                <li>Galvan Ignacio</li>
+                <li>Gentilli Santiago</li>
+                <li>Lucero Franco</li>
+            </ul>
+            Profesor:
+            <ul class="profesor">
+                <li>Funes Gustavo</li>
+            </ul>
             </p>
         </div>
     </div>
@@ -151,8 +172,8 @@ $conn->close();
             <h2 class="top">Ranking</h2>
             <p class="top">Aquí están los mejores jugadores clasificados.</p>
             <h3 class="topp">Top 5</h3>
-            <div id="topp"></div>
-            
+            <div id="topp">
+            </div>
         </div>
     </div>
 
@@ -175,43 +196,77 @@ $conn->close();
             <h2 class="top">Cerrar sesión</h2>
             <section class="cerrarsesion">
                 <button class="logout" id="confirmacion">Si</button>
-                <button class="logout"  id="negacion">No</button>
+                <button class="logout" id="negacion">No</button>
             </section>
-            
+
         </div>
     </div>
+
     <script defer src="../js/pregunta.js"></script>
+
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-    // Botón de "Sí" en el modal de cerrar sesión
-    document.getElementById('confirmacion').addEventListener('click', function() {
-        // Redirigir al archivo logout.php para cerrar la sesión
-        window.location.href = '../../../components/logout/logout.php';
-    });
+        //cronometro
+        // Obtén el tiempo restante desde PHP (en segundos)
+        let tiempoRestante = <?php echo $tiempoRestante; ?>;
 
-    // Botón de "No" en el modal de cerrar sesión
-    document.getElementById('negacion').addEventListener('click', function() {
-        // Cerrar el modal y regresar al menú hamburguesa
-        document.getElementById('modalcerrarsesion').style.display = 'none';
-    });
+        // Actualiza el cronómetro cada segundo
+        let cronometro = setInterval(function() {
+            // Calcula horas, minutos y segundos
+            let horas = Math.floor(tiempoRestante / 3600);
+            let minutos = Math.floor((tiempoRestante % 3600) / 60);
+            let segundos = tiempoRestante % 60;
 
-    // Código para abrir y cerrar modales (ya existente en tu código)
-    const modals = document.querySelectorAll('.modal');
-    const closeButtons = document.querySelectorAll('.close');
+            // Agrega ceros si es necesario
+            horas = horas < 10 ? "0" + horas : horas;
+            minutos = minutos < 10 ? "0" + minutos : minutos;
+            segundos = segundos < 10 ? "0" + segundos : segundos;
 
-    closeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            modals.forEach(modal => {
-                modal.style.display = 'none';
+            // Muestra el cronómetro
+            document.getElementById("cronometro").innerHTML = horas + ":" + minutos + ":" + segundos;
+
+            // Comprueba si el tiempo se ha agotado
+            if (tiempoRestante <= 0) {
+                clearInterval(cronometro);
+                // Redirige a otra página cuando el cronómetro se acaba
+                window.location.href = "../../gameover/game_over.php";
+            }
+
+            tiempoRestante--;
+        }, 1000);
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Botón de "Sí" en el modal de cerrar sesión
+            document.getElementById('confirmacion').addEventListener('click', function() {
+                // Redirigir al archivo logout.php para cerrar la sesión
+                window.location.href = '../../../components/logout/logout.php';
+            });
+
+            // Botón de "No" en el modal de cerrar sesión
+            document.getElementById('negacion').addEventListener('click', function() {
+                // Cerrar el modal y regresar al menú hamburguesa
+                document.getElementById('modalcerrarsesion').style.display = 'none';
+            });
+
+            // Código para abrir y cerrar modales (ya existente en tu código)
+            const modals = document.querySelectorAll('.modal');
+            const closeButtons = document.querySelectorAll('.close');
+
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    modals.forEach(modal => {
+                        modal.style.display = 'none';
+                    });
+                });
+            });
+
+            // Abre el modal de cerrar sesión
+            document.getElementById('Cerrarsesión').addEventListener('click', function() {
+                document.getElementById('modalcerrarsesion').style.display = 'block';
             });
         });
-    });
-
-    // Abre el modal de cerrar sesión
-    document.getElementById('Cerrarsesión').addEventListener('click', function() {
-        document.getElementById('modalcerrarsesion').style.display = 'block';
-    });
-});
-</script>
+    </script>
 </body>
+
 </html>

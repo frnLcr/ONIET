@@ -38,13 +38,15 @@ if (!empty($usuario) && !empty($dni)) {
         $puntaje = $row['puntaje'];
         $dni = $row['dni'];
         $mail = $row['mail'];
+        $id = $row['id']; // Asegúrate de que esto corresponda al campo ID en tu tabla
 
-        // Guardar el nombre de usuario y puntaje en la sesión
+        // Guardar el nombre de usuario, puntaje y ID en la sesión
         $_SESSION['nombre'] = $nombre;
         $_SESSION['puntaje'] = $puntaje;
         $_SESSION['usuario'] = $usuario;
         $_SESSION['dni'] = $dni;
         $_SESSION['mail'] = $mail;
+        $_SESSION['id'] = $id; // Guarda el ID del usuario
 
         // Enviar respuesta como JSON
         echo json_encode(["success" => true, "nombre" => $nombre]);

@@ -2,10 +2,26 @@
 // Iniciar la sesión
 session_start();
 
+// Establecer la zona horaria de Buenos Aires, Argentina
+date_default_timezone_set('America/Argentina/Buenos_Aires');
+
+// Define la hora de inicio y fin en formato 'Y-m-d H:i:s'
+$horaInicio = '2024-10-11 11:00:00';  // Fecha y hora de inicio que tú determines
+$horaFin = '2024-10-16 14:45:00';     // Fecha y hora de fin que tú determines
+
+// Convertir las horas de inicio y fin a timestamps
+$timestampInicio = strtotime($horaInicio);
+$timestampFin = strtotime($horaFin);
+
+// Calcular el tiempo restante en segundos
+$tiempoActual = time();  // Hora actual en el servidor
+$tiempoRestante = $timestampFin - $tiempoActual;
+
+
 // Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['usuario'])) {
     // Si no ha iniciado sesión, redirigir al login
-    header("Location: ../../../../index.html");
+    header("Location: ../../../../index.php");
     exit;
 }
 
@@ -18,8 +34,6 @@ $mail = $_SESSION['mail'];
 
 // Inicializar el orden
 $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
-
-
 
 ?>
 
@@ -67,30 +81,33 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
             </nav>
         </div>
     </header>
-
+    <div class="cronometroo" id="cronometro"></div>
     <main class="leeqr">
-    <section class="psita">
+        <section class="psita">
             <p class="estilo-msj">PISTA:</p>
             <h1 id=pista></h1>
         </section>
         <div style=" text-align: center; color: #5C0000">
-            <p >Escanee el QR para ver la siguiente pregunta!</p>
+            <p>Escanee el QR para ver la siguiente pregunta!</p>
         </div>
         <div class="conteQr">
             <section class="QR">
                 <div class="container">
-                  
-                    <button class="botonqr" id="open-camera">Iniciar Escaneo</button>
+
+                    <button class="botonqr" id="open-camera">Iniciar<br>Escaneo</button>
                     <button class="botonqr" id="close-camara" style="display: none;">Detener Escaneo</button>
+                    <!-- Botón para cambiar la cámara -->
+                    <button class="botonqr" id="toggle-camera" style="display: none;">Cambiar Cámara</button>
                     <div id="preview" style="width: 100%; height: auto; display: none;">
                         <video id="video" style="width: 100%; height: auto;"></video>
                     </div>
-                    <div>
-                        <p id="error-msg" style="display: none;">Código QR incorrecto. Inténtelo de nuevo.</p>
-                    </div>
                 </div>
+        </div>
+        <div class="diverror">
+            <p id="error-msg" style="display: none;">Código QR incorrecto. Inténtelo de nuevo.</p>
+        </div>
 
-            </section>
+        </section>
         </div>
     </main>
     <!-- Modales -->
@@ -147,7 +164,6 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
             <p class="top">Aquí están los mejores jugadores clasificados.</p>
             <h3 class="topp">Top 5</h3>
             <div id="topp"></div>
-            
         </div>
     </div>
 
@@ -164,17 +180,79 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
     </div>
 
     <div id="modalcerrarsesion" class="modal">
-    <span class="close">&times;</span>
-    <div class="modal-content">
-        <h2 class="top">Cerrar sesión</h2>
-        <section class="cerrarsesion">
-            <button class="logout" id="confirmacion">Sí</button>
-            <button class="logout" id="negacion">No</button>
-        </section>
+        <span class="close">&times;</span>
+        <div class="modal-content">
+            <h2 class="top">Cerrar sesión</h2>
+            <section class="cerrarsesion">
+                <button class="logout" id="confirmacion">Sí</button>
+                <button class="logout" id="negacion">No</button>
+            </section>
+        </div>
     </div>
-</div>
 
     <script>
+        //cronometro
+        // Obtén el tiempo restante desde PHP (en segundos)
+        let tiempoRestante = <?php echo $tiempoRestante; ?>;
+
+        // Actualiza el cronómetro cada segundo
+        let cronometro = setInterval(function() {
+            // Calcula horas, minutos y segundos
+            let horas = Math.floor(tiempoRestante / 3600);
+            let minutos = Math.floor((tiempoRestante % 3600) / 60);
+            let segundos = tiempoRestante % 60;
+
+            // Agrega ceros si es necesario
+            horas = horas < 10 ? "0" + horas : horas;
+            minutos = minutos < 10 ? "0" + minutos : minutos;
+            segundos = segundos < 10 ? "0" + segundos : segundos;
+
+            document.getElementById("cronometro").innerHTML = horas + ":" + minutos + ":" + segundos;
+
+
+            // Comprueba si el tiempo se ha agotado
+            if (tiempoRestante <= 0) {
+                clearInterval(cronometro);
+                // Redirige a otra página cuando el cronómetro se acaba
+                window.location.href = "../../gameover/game_over.php";
+            }
+
+            tiempoRestante--;
+        }, 1000);
+    </script>
+
+    <script>
+        // Variables globales
+        let scannerRunning = false;
+        let html5QrCode = null;
+        let currentCamera = 'environment'; // Cámara actual ('environment' para trasera, 'user' para frontal)
+        let activeCameraId = null;
+
+        // Funciones de éxito y error para el escaneo del QR
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+            const ordenEsperado = <?php echo json_encode($orden); ?>;
+
+            // Comparar el código QR escaneado con el esperado
+            if (decodedText === `qr${ordenEsperado}`) {
+                fetch(`success.php?orden=${ordenEsperado}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = "../../pregunta/page/pregunta.php";
+                        } else {
+                            alert("Error al actualizar el orden.");
+                        }
+                    });
+            } else {
+                document.getElementById('error-msg').style.display = 'inline';
+            }
+        };
+
+        const qrCodeErrorCallback = (errorMessage) => {
+            // Aquí puedes manejar errores en el proceso de escaneo si es necesario
+            // console.error(`QR Error: ${errorMessage}`);
+        };
+
         document.addEventListener("DOMContentLoaded", function() {
             // Pasar el valor de PHP a una variable de JavaScript
             const ordenEsperado = <?php echo json_encode($orden); ?>;
@@ -194,57 +272,42 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
                     document.getElementById('pista').innerText = "No se pudo obtener la pista";
                 });
 
-            const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-                // Comparar el código QR escaneado con el esperado
-                if (decodedText === `qr${ordenEsperado}`) {
-                    fetch(`success.php?orden=${ordenEsperado}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                window.location.href = "../../pregunta/page/pregunta.php";
-                            } else {
-                                alert("Error al actualizar el orden.");
-                            }
-                        });
-                } else {
-                    document.getElementById('error-msg').style.display = 'inline';
-                }
-            };
-
-            const qrCodeErrorCallback = (errorMessage) => {
-                // Aquí puedes manejar errores en el proceso de escaneo si es necesario
-                console.error(`QR Error: ${errorMessage}`);
-            };
-
-            const html5QrCode = new Html5Qrcode("preview");
-
-            let scannerRunning = false; // Variable para rastrear el estado del escáner
+            html5QrCode = new Html5Qrcode("preview");
 
             document.getElementById('open-camera').addEventListener('click', function() {
                 Html5Qrcode.getCameras().then(cameras => {
                     if (cameras && cameras.length) {
-                        const camera = cameras.find(cam => cam.label.toLowerCase().includes('back')) || cameras[0];
+                        activeCameraId = cameras.find(cam => cam.label.toLowerCase().includes('back'))?.id || cameras[0].id;
 
-                        if (camera) {
+                        if (activeCameraId) {
                             setTimeout(() => {
                                 html5QrCode.start(
-                                    camera.id, {
+                                    activeCameraId, {
                                         fps: 10,
                                         qrbox: {
                                             width: 300,
                                             height: 300
                                         },
                                         videoConstraints: {
-                                            facingMode: "environment"
+                                            facingMode: currentCamera
                                         }
                                     },
                                     qrCodeSuccessCallback,
                                     qrCodeErrorCallback
                                 );
-                                scannerRunning = true; // Cambia el estado a corriendo
+                                scannerRunning = true;
+
+                                // Aplica transformación CSS si la cámara frontal está activa
+                                if (currentCamera === 'user') {
+                                    document.getElementById('preview').style.transform = 'scaleX(-1)';
+                                } else {
+                                    document.getElementById('preview').style.transform = 'none';
+                                }
+
                                 document.getElementById('preview').style.display = 'block';
                                 document.getElementById('open-camera').style.display = 'none';
                                 document.getElementById('close-camara').style.display = 'inline';
+                                document.getElementById('toggle-camera').style.display = 'inline';
                             }, 1000);
                         } else {
                             console.error("No se pudo encontrar la cámara trasera.");
@@ -258,12 +321,13 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
             });
 
             document.getElementById('close-camara').addEventListener('click', function() {
-                if (scannerRunning) { // Solo intenta detener si el escáner está corriendo
+                if (scannerRunning) {
                     html5QrCode.stop().then(() => {
-                        scannerRunning = false; // Cambia el estado a detenido
+                        scannerRunning = false;
                         document.getElementById('preview').style.display = 'none';
                         document.getElementById('open-camera').style.display = 'inline';
                         document.getElementById('close-camara').style.display = 'none';
+                        document.getElementById('toggle-camera').style.display = 'none';
                         document.getElementById('error-msg').style.display = 'none';
                     }).catch(err => {
                         console.error(`Error al detener el escaneo: ${err}`);
@@ -272,58 +336,78 @@ $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
                     console.log("El escáner ya está detenido o no se ha iniciado.");
                 }
             });
-
-
-
-            document.getElementById('close-camara').addEventListener('click', function() {
-                html5QrCode.stop().then(() => {
-                    document.getElementById('preview').style.display = 'none';
-                    document.getElementById('open-camera').style.display = 'inline';
-                    document.getElementById('close-camara').style.display = 'none';
-                    document.getElementById('error-msg').style.display = 'none';
-                }).catch(err => {
-                    console.error(`Error al detener el escaneo: ${err}`);
-                });
-            });
         });
 
-        $(document).ready(function(){
-    $("#topp").load("../../pregunta/page/usuarios_top.php");
-});
+        // Botón para cambiar de cámara
+        document.getElementById('toggle-camera').addEventListener('click', function() {
+            currentCamera = currentCamera === 'environment' ? 'user' : 'environment';
+
+            // Reiniciar el escáner con la nueva cámara
+            if (scannerRunning) {
+                html5QrCode.stop().then(() => {
+                    html5QrCode.start(
+                        activeCameraId, {
+                            fps: 10,
+                            qrbox: {
+                                width: 300,
+                                height: 300
+                            },
+                            videoConstraints: {
+                                facingMode: currentCamera
+                            }
+                        },
+                        qrCodeSuccessCallback,
+                        qrCodeErrorCallback
+                    ).then(() => {
+                        // Aplica o quita la transformación CSS si la cámara frontal está activa
+                        if (currentCamera === 'user') {
+                            document.getElementById('preview').style.transform = 'scaleX(-1)';
+                        } else {
+                            document.getElementById('preview').style.transform = 'none';
+                        }
+                    });
+                }).catch(err => {
+                    console.error(`Error al reiniciar el escaneo: ${err}`);
+                });
+            }
+        });
+        $(document).ready(function() {
+            $("#topp").load("../../pregunta/page/usuarios_top.php");
+        });
     </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-    // Botón de "Sí" en el modal de cerrar sesión
-    document.getElementById('confirmacion').addEventListener('click', function() {
-        // Redirigir al archivo logout.php para cerrar la sesión
-        window.location.href = '../../../components/logout/logout.php';
-    });
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Botón de "Sí" en el modal de cerrar sesión
+            document.getElementById('confirmacion').addEventListener('click', function() {
+                // Redirigir al archivo logout.php para cerrar la sesión
+                window.location.href = '../../../components/logout/logout.php';
+            });
 
-    // Botón de "No" en el modal de cerrar sesión
-    document.getElementById('negacion').addEventListener('click', function() {
-        // Cerrar el modal y regresar al menú hamburguesa
-        document.getElementById('modalcerrarsesion').style.display = 'none';
-    });
+            // Botón de "No" en el modal de cerrar sesión
+            document.getElementById('negacion').addEventListener('click', function() {
+                // Cerrar el modal y regresar al menú hamburguesa
+                document.getElementById('modalcerrarsesion').style.display = 'none';
+            });
 
-    // Código para abrir y cerrar modales (ya existente en tu código)
-    const modals = document.querySelectorAll('.modal');
-    const closeButtons = document.querySelectorAll('.close');
+            // Código para abrir y cerrar modales (ya existente en tu código)
+            const modals = document.querySelectorAll('.modal');
+            const closeButtons = document.querySelectorAll('.close');
 
-    closeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            modals.forEach(modal => {
-                modal.style.display = 'none';
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    modals.forEach(modal => {
+                        modal.style.display = 'none';
+                    });
+                });
+            });
+
+            // Abre el modal de cerrar sesión
+            document.getElementById('Cerrarsesión').addEventListener('click', function() {
+                document.getElementById('modalcerrarsesion').style.display = 'block';
             });
         });
-    });
-
-    // Abre el modal de cerrar sesión
-    document.getElementById('Cerrarsesión').addEventListener('click', function() {
-        document.getElementById('modalcerrarsesion').style.display = 'block';
-    });
-});
-</script>
+    </script>
 </body>
 
 </html>

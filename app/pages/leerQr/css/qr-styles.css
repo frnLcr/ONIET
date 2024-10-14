@@ -4,7 +4,17 @@
     width: 100%;
     align-content: center;
     overflow: hidden;
-    }
+}
+#reader {
+    width: 100%;
+    height: auto;
+    display: block;
+    position: relative;
+}
+video {
+    width: 100%;
+    height: auto;
+}
     h1{
         text-align: center;
     }
@@ -16,14 +26,6 @@
         border-radius: 20px;
 
     }
-
-    .estilo-msj {
-        font-size: 20px;
-        font-weight: bold;
-        color: #5C0000;
-        margin-left: 10px;
-    }
-
     .conteQr{
         width: 100%;
         display: flex;
@@ -73,10 +75,27 @@
 
 }
 
+.cronometroo{
+    background-color: #5c0000;
+    padding: 10px;
+    color: rgb(255, 255, 255);
+    border-radius: 10px;
+    position: fixed;
+    position: absolute;
+    top: 11% ;
+    right: 0 ;
+}
+#cronometro{
+    margin: 5px;
+}
 #error-msg{
 display: none;
-padding: 10px 0 25px 0;
 color: red;
+}
+
+.diverror {
+    margin-top: 10px;
+text-align: center;
 }
 
 
@@ -86,7 +105,17 @@ color: red;
         text-align: center !important; 
         align-content: center  !important;
         overflow: hidden  !important;
-    }
+        }
+        #reader {
+    width: 100%;
+    height: auto;
+    display: block;
+    position: relative;
+}
+video {
+    width: 100%;
+    height: auto;
+}
         h1{
             text-align: center  !important;
         }
@@ -101,23 +130,23 @@ color: red;
             width: 100% !important;
             align-content: center !important;
             border: 3px solid #5C0000 !important;
+            margin-bottom: 10px;
             .container{
                 width: 100% !important;
-                height: 400px !important;
+                height: auto !important;
                 .botonqr{
-                    height: 50px !important;
-                    width: 200px !important;
-                    margin-left: 0px !important;
-                    margin-top: 16px !important;
+                    height: 40px !important;
+                    width: 80px !important;
+                    margin: 10px 20px 10px 20px !important;
                     border: 3px solid #5C0000 !important;
                 }
             }
         }
-    
     }
+}
     
 
-}
+
 .contorno{
     border: 3px solid black;
     .top{
@@ -131,4 +160,7 @@ color: red;
     left: 50%;
     text-align: center;
     color: #5C0000;
+}
+#contador{
+    color: #5C0000;
 }
