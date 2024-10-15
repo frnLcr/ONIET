@@ -6,7 +6,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 // Define la hora de inicio y fin en formato 'Y-m-d H:i:s'
 $horaInicio = '2024-10-11 11:00:00';  // Fecha y hora de inicio que tú determines
-$horaFin = '2024-10-16 14:45:00';     // Fecha y hora de fin que tú determines
+$horaFin = '2024-10-16 21:45:00';     // Fecha y hora de fin que tú determines
 
 // Convertir las horas de inicio y fin a timestamps
 $timestampInicio = strtotime($horaInicio);
@@ -21,6 +21,12 @@ if (!isset($_SESSION['usuario'])) {
     // Si no ha iniciado sesión, redirigir al login
     header("Location: ../../../../index.php");
     exit;
+}
+
+if (!isset($_SESSION['qr_escaneado']) || $_SESSION['qr_escaneado'] === false) {
+    // Si no ha escaneado el QR, redirigir al usuario a la página de escaneo
+    header('Location: ../../leerQr/page/leerQr.php');
+    exit();
 }
 
 $servername = "localhost";

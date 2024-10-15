@@ -7,7 +7,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 // Define la hora de inicio y fin en formato 'Y-m-d H:i:s'
 $horaInicio = '2024-10-11 11:00:00';  // Fecha y hora de inicio que tú determines
-$horaFin = '2024-10-14 20:45:00';     // Fecha y hora de fin que tú determines
+$horaFin = '2024-10-14 21:45:00';     // Fecha y hora de fin que tú determines
 
 // Convertir las horas de inicio y fin a timestamps
 $timestampInicio = strtotime($horaInicio);
@@ -24,6 +24,8 @@ if (!isset($_SESSION['usuario'])) {
     header("Location: ../../../../index.php");
     exit;
 }
+
+$_SESSION['qr_escaneado'] = false;
 
 // Obtener el nombre del usuario y el puntaje de la sesión
 $nombre = $_SESSION['nombre'];
