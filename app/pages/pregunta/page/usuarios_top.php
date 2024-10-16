@@ -26,11 +26,23 @@ $resultado_top = $conexion->query($sql_top);
 // Verificar si hay resultados
 $top_usuarios = [];
 if ($resultado_top->num_rows > 0) {
+    echo "<table style='width: 100%; border-collapse: collapse; text-align: center;'>";
+    echo "<thead><tr><th style='border: 1px solid #800020; padding: 8px;'>Nombre</th><th style='border: 1px solid #800020; padding: 8px;'>Puntaje</th></tr></thead>";
+    echo "<tbody>";
+
     // Almacenar los resultados de los top 5 en un arreglo
     while($fila = $resultado_top->fetch_assoc()) {
         $top_usuarios[] = $fila;
-        echo "<li>" . $fila["nombre"] . " - Puntaje: " . $fila["puntaje"] . "</li>";
+
+        // Mostrar cada fila del top 5 con dos columnas
+        echo "<tr>
+                <td style='border: 1px solid #800020; padding: 8px;'>" . $fila["nombre"] . "</td>
+                <td style='border: 1px solid #800020; padding: 8px;'>" . $fila["puntaje"] . "</td>
+              </tr>";
     }
+
+    echo "</tbody>";
+    echo "</table>";
 } else {
     echo "No hay resultados.";
 }
@@ -58,7 +70,13 @@ if ($resultado_usuario->num_rows > 0) {
     if (!$en_top_5) {
         // Agregar los puntos como separador
         echo "<p>...</p>"; // Puedes cambiar esto a <hr> o algo que desees si prefieres otra estética
-        echo "<li>" . $usuario_actual["nombre"] . " - Puntaje: " . $usuario_actual["puntaje"] . "</li>";
+        
+        echo "<table style='width: 100%; border-collapse: collapse; text-align: center;'>";
+        echo "<tr>
+                <td style='border: 1px solid #800020; padding: 8px;'>" . $usuario_actual["nombre"] . "</td>
+                <td style='border: 1px solid #800020; padding: 8px;'>" . $usuario_actual["puntaje"] . "</td>
+              </tr>";
+        echo "</table>";
     }
 } else {
     echo "Usuario no encontrado.";

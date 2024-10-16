@@ -22,13 +22,15 @@ $usuario_actual = $_SESSION['usuario']; // El usuario actual (usuario de la sesi
     <link rel="stylesheet" href="./css/game_over.css">
     <title>Ranking Final</title>
 </head>
-<body>
-    <h1>Finalizo el tiempo de juego</h1>
+<body class="bodyrankin">
+    <div>
+    <h1>FINALIZO EL JUEGO</h1>
+    </div>
     <div>
     <?php include 'ranking_final.php';?>
     </div>
     <div>
-        <p>Gracias por jugar con nosotros</p>
+        <p class="msj-final">Gracias por jugar!</p>
     </div>
 </body>
 </html>

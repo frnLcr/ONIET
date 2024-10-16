@@ -1,7 +1,4 @@
 <?php
-// Iniciar la sesión
-session_start();
-
 // Conectar a la base de datos
 $conexion = new mysqli("localhost", "root", "", "resolution_qrproyecto");
 
@@ -19,59 +16,46 @@ $resultado = $conexion->query($sql);
 
 // Verificar si hay resultados
 if ($resultado->num_rows > 0) {
-    // Consulta para obtener el top 3
-    echo "<h2>Top 3 Usuarios</h2>";
-    echo "<ul>";
+    // Mostrar el top 3 con tabla
+    echo "<h2 style='text-align: center;'>Top 3 Usuarios</h2>";
+    echo "<table style='width: 100%; border-collapse: collapse; border-radius: 5px; overflow: hidden;'>";
+    echo "<tr><th style='border: 2px solid #800020; padding: 8px; text-align: center;'>Nombre</th><th style='border: 2px solid #800020; padding: 8px; text-align: center;'>Puntaje</th></tr>";
+
     for ($i = 0; $i < 3 && $fila = $resultado->fetch_assoc(); $i++) {
         // Verificar si el usuario actual es el que está en la fila
-        if ($fila["usuario"] == $usuario_actual) {
-            echo "<li 
-            style='background-color: #a62c2c;
-            border: 2px solid #800020; /* Bordó */
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 8px;
-            font-size: 18px;
-            color: #ffffff;
-            transition: background-color 0.3s ease;
-            text-align: left;
-            display: flex;
-            justify-content: space-between;'>" . $fila["nombre"] . " - Puntaje: " . $fila["puntaje"] . "</li>";
-        } else {
-            echo "<li>" . $fila["nombre"] . " - Puntaje: " . $fila["puntaje"] . "</li>";
-        }
+        $row_style = ($fila["usuario"] == $usuario_actual) ? "background-color: #a62c2c; color: #ffffff;" : "";
+        
+        echo "<tr style='$row_style'>
+                <td style='border: 2px solid #800020; padding: 10px; text-align: center;'>". $fila["nombre"] ."</td>
+                <td style='border: 2px solid #800020; padding: 10px; text-align: center;'>". $fila["puntaje"] ."</td>
+              </tr>";
     }
-    echo "</ul>";
+
+    echo "</table>";
 
     // Resetear el puntero de resultado para la segunda consulta
     $resultado->data_seek(0);
 
-    // Imprimir el ranking completo
-    echo "<h1>Ranking de Usuarios</h1>";
-    echo "<ul>";
+    // Mostrar el ranking completo con tabla
+    echo "<h2 style='text-align: center;'>Ranking de Usuarios</h2>";
+    echo "<table style='width: 100%; border-collapse: collapse; border-radius: 5px; overflow: hidden;'>";
+    echo "<tr><th style='border: 2px solid #800020; padding: 8px; text-align: center;'>Nombre</th><th style='border: 2px solid #800020; padding: 8px; text-align: center;'>Puntaje</th></tr>";
+
     while ($fila = $resultado->fetch_assoc()) {
         // Verificar si el usuario actual es el que está en la fila
-        if ($fila["usuario"] == $usuario_actual) {
-            echo "<li
-            style='background-color: #a62c2c;
-            border: 2px solid #800020; /* Bordó */
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 8px;
-            font-size: 18px;
-            color: #ffffff;
-            transition: background-color 0.3s ease;
-            text-align: left;
-            display: flex;
-            justify-content: space-between;'>" . $fila["nombre"] . " - Puntaje: " . $fila["puntaje"] . "</li>";
-        } else {
-            echo "<li>" . $fila["nombre"] . " - Puntaje: " . $fila["puntaje"] . "</li>";
-        }
+        $row_style = ($fila["usuario"] == $usuario_actual) ? "background-color: #a62c2c; color: #ffffff;" : "";
+        
+        echo "<tr style='$row_style'>
+                <td style='border: 2px solid #800020; padding: 10px; text-align: center;'>". $fila["nombre"] ."</td>
+                <td style='border: 2px solid #800020; padding: 10px; text-align: center;'>". $fila["puntaje"] ."</td>
+              </tr>";
     }
-    echo "</ul>";
+
+    echo "</table>";
 } else {
     echo "No hay resultados.";
 }
 
 // Cerrar la conexión
 $conexion->close();
+?>

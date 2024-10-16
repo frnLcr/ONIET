@@ -127,7 +127,7 @@ $conn->close();
         <span class="close">&times;</span>
         <div class="modal-content">
             <h2>Cómo Jugar</h2>
-            <p>Instrucciones detalladas sobre cómo jugar el juego.</p>
+            <p class="intro">Instrucciones detalladas sobre cómo jugar el juego.</p>
             <p>Este juego consiste en ir escaneando codigos QR alrededor del campus, y responder preguntas aleatorias relacionadas a los principales temas de la ONIET.
                 Al responder correctamente, el jugador obtendrá puntos. De lo contrario, si responde mal, o se acaba el tiempo no sumara nada.
                 En ambos escenarios, el jugador avanzara hacia el proximo QR gracias a una pista revelada despues de responder.
@@ -140,7 +140,7 @@ $conn->close();
         <span class="close">&times;</span>
         <div class="modal-content">
             <h2>Estrategias</h2>
-            <p>Consejos y estrategias para mejorar tu puntuación.</p>
+            <p class="intro">Consejos y estrategias para mejorar tu puntuación.</p>
             <p>1. Leer bien las pistas. Estas son información valiosa para ayudarte a encontrar los codigos.</p>
             <p>2. Responder en tiempo. Si respondes antes, ganaras mas puntos.</p>
             <p>3. Cuidar tu tiempo. No dejes que el tiempo se agote antes de responder.</p>
@@ -152,7 +152,7 @@ $conn->close();
         <span class="close">&times;</span>
         <div class="modal-content">
             <h2>Sobre Nosotros</h2>
-            <p>Información acerca del equipo detrás del juego.</p>
+            <p class="intro">Información acerca del equipo detrás del juego.</p>
             <p>Alumnos de tercer año de la carrera de Ingenieria Informatica de la Universidad Blas Pascal</p>
             <p>Alumnos:
             <ul class="alumnos">
@@ -176,7 +176,7 @@ $conn->close();
         <span class="close">&times;</span>
         <div class="modal-content">
             <h2 class="top">Ranking</h2>
-            <p class="top">Aquí están los mejores jugadores clasificados.</p>
+            <p class="intro">Aquí están los mejores jugadores clasificados.</p>
             <h3 class="topp">Top 5</h3>
             <div id="topp">
             </div>

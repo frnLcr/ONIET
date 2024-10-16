@@ -7,7 +7,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 // Define la hora de inicio y fin en formato 'Y-m-d H:i:s'
 $horaInicio = '2024-10-14 00:28:00';  // Fecha y hora de inicio que tú determines
-$horaFin = '2024-10-14 00:29:00';     // Fecha y hora de fin que tú determines
+$horaFin = '2024-10-16 01:10:00';     // Fecha y hora de fin que tú determines
 
 // Convertir las horas de inicio y fin a timestamps
 $timestampInicio = strtotime($horaInicio);
@@ -20,7 +20,7 @@ $tiempoRestante = $timestampFin - $tiempoActual;
 
 <!DOCTYPE html>
 <html lang="es">
-
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,14 +35,14 @@ $tiempoRestante = $timestampFin - $tiempoActual;
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8); /* Fondo oscuro para tapar */
-            display: flex;
-            justify-content: center;
-            align-items: center;
             z-index: 1000; /* Encima de todo */
             color: white;
             font-size: 48px;
             font-family: Arial, sans-serif;
             text-align: center;
+            .inicio{
+                margin-top: 200px;
+            }
         }
     </style>
 </head>
@@ -50,7 +50,7 @@ $tiempoRestante = $timestampFin - $tiempoActual;
 <body class="bodymenu">
     <div id="overlay-cronometro" style="display: none;" >
         <div id="overlay-cronometro" >
-            <p>El juego comienza en: </p>
+            <p class="inicio ">El juego comienza en: </p>
             <div class="timer" id="cronometro"></div>
         </div>
     </div>

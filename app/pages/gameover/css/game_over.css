@@ -1,14 +1,20 @@
-* Estilo del cuerpo de la página */
+/* Estilo del cuerpo de la página */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f9f9f9; /* Color de fondo suave */
     color: #333; /* Color del texto */
-    margin: auto;
+    margin: 0; /* Eliminamos margen para ocupar todo el viewport */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+.final{
+    color: #000000;
+    font-size: 40px;
+    margin-bottom: 10px;
+    z-index: 1000; 
 }
 
 /* Contenedor principal para centrar todo verticalmente */
@@ -16,14 +22,21 @@ body {
     width: 90%; /* Para que ocupe el 90% del ancho de la pantalla */
     max-width: 600px; /* Máximo ancho para pantallas grandes */
     text-align: center;
+    padding: 20px; /* Añadir espaciado interno */
+    background-color: #ffffff; /* Fondo blanco para el contenedor */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave para profundidad */
 }
 
 /* Encabezados del ranking */
 h2 {
     color: #800020; /* Bordó */
     font-size: 24px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    text-align: center;
     text-transform: uppercase;
+    font-weight: bold; /* Negrita para mayor énfasis */
+    letter-spacing: 1px; /* Espaciado entre letras */
 }
 
 /* Estilo para las listas */
@@ -36,14 +49,14 @@ ul {
 
 /* Estilo para cada elemento del ranking */
 ul li {
-    background-color: #ffffff;
+    background-color: #fff;
     border: 2px solid #800020; /* Bordó */
-    padding: 10px;
+    padding: 15px; /* Mayor espaciado interno */
     margin: 8px 0;
     border-radius: 8px;
     font-size: 18px;
     color: #333;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Suave transición */
     text-align: left;
     display: flex;
     justify-content: space-between; /* Distribuye el nombre y puntaje */
@@ -53,15 +66,28 @@ ul li {
 ul li:hover {
     background-color: #f2e4e4; /* Ligero tono de bordó */
     cursor: pointer;
+    transform: translateY(-2px); /* Efecto de elevación al pasar el ratón */
 }
 
 /* Estilos adicionales */
 p {
     font-size: 18px;
     color: #333;
+    margin: 10px 0; /* Espaciado vertical */
 }
 
-.mensaje-final{
-    color: #800020;
-    font-weight: bold;
+.msj-final {
+    color: #fff; /* Bordó */
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px; /* Espaciado entre letras */
+    border: 2px solid #ccc;
+    background-color: #a62c2c; /* Color de fondo claro */
+    border-radius: 5px;
+    padding: 5px;
+}
+.bodyrankin{
+    height: auto;
 }
