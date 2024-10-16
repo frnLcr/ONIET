@@ -243,7 +243,7 @@ if ($orden > $total_pistas) {
             const ordenEsperado = <?php echo json_encode($orden); ?>;
 
             // Comparar el código QR escaneado con el esperado
-            if (decodedText === `qr${ordenEsperado}`) {
+            if (decodedText === `ONIET-qr${ordenEsperado}`) {
                 fetch(`success.php?orden=${ordenEsperado}`)
                     .then(response => response.json())
                     .then(data => {
