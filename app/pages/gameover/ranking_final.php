@@ -28,7 +28,7 @@ if ($resultado->num_rows > 0) {
         echo "<tr style='$row_style'>
                 <td style='border: 2px solid #800020; padding: 10px; text-align: center;'>". $fila["nombre"] ."</td>
                 <td style='border: 2px solid #800020; padding: 10px; text-align: center;'>". $fila["puntaje"] ."</td>
-              </tr>";
+            </tr>";
     }
 
     echo "</table>";
@@ -48,7 +48,7 @@ if ($resultado->num_rows > 0) {
         echo "<tr style='$row_style'>
                 <td style='border: 2px solid #800020; padding: 10px; text-align: center;'>". $fila["nombre"] ."</td>
                 <td style='border: 2px solid #800020; padding: 10px; text-align: center;'>". $fila["puntaje"] ."</td>
-              </tr>";
+            </tr>";
     }
 
     echo "</table>";
