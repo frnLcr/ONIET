@@ -1,6 +1,10 @@
 let currentQuestionIndex = 0;
 let questions = [];
 
+// Límite de intentos para evitar bucles infinitos
+const MAX_ATTEMPTS = 3;
+let attempts = 0;
+
 // Función para obtener las preguntas de la API
 const getQuestions = async () => {
     try {
@@ -34,16 +38,29 @@ const getQuestions = async () => {
             // Renderizar la primera pregunta
             renderQuestion(questions[0]);
 
+            // Reiniciar el contador de intentos
+            attempts = 0;
+
         } catch (parseError) {
-            // En caso de error en el formato del JSON o en la validación, solicitar otra pregunta
+            // Manejar el error en el formato del JSON o en la validación
             console.warn("Pregunta malformada o respuesta incorrecta. Solicitando una nueva pregunta...");
-            await getQuestions(); // Volver a llamar a la función para obtener una nueva pregunta
+
+            attempts += 1;
+
+            // Solo intentar obtener una nueva pregunta si no se ha excedido el número máximo de intentos
+            if (attempts < MAX_ATTEMPTS) {
+                await getQuestions(); // Volver a intentar obtener una nueva pregunta
+            } else {
+                console.error("Se ha alcanzado el máximo de intentos para obtener una pregunta válida.");
+                // Aquí puedes manejar este caso como mostrar un mensaje al usuario o detener el juego
+            }
         }
 
     } catch (error) {
         console.error("Error al obtener la pregunta:", error);
     }
 };
+
 
 // Función para renderizar la pregunta y las opciones
 const renderQuestion = (question) => {
