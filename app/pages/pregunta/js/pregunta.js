@@ -5,54 +5,60 @@ let questions = [];
 const MAX_ATTEMPTS = 3;
 let attempts = 0;
 
+// Función para mezclar las opciones (algoritmo de Fisher-Yates)
+const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // Intercambiar elementos
+    }
+    return array;
+};
+
 // Función para obtener las preguntas de la API
 const getQuestions = async () => {
     try {
-        // Hacer la solicitud a la API
-        const res = await fetch("https://southamerica-west1-klearty.cloudfunctions.net/funcion-pregunta-2");
+        const res = await fetch("http://127.0.0.1:8000/generate-question");
         const jsonData = await res.json();
 
-        // Intentar parsear el contenido del JSON
         try {
             const parsedContent = JSON.parse(jsonData.response);
 
-            // Validar que el JSON contenga la estructura correcta
             if (!parsedContent.pregunta || !Array.isArray(parsedContent.opciones) || !parsedContent.respuesta_correcta) {
                 throw new Error("Formato de JSON inválido.");
             }
 
-            // Verificar que la respuesta correcta esté entre las opciones
             const hasCorrectAnswer = parsedContent.opciones.includes(parsedContent.respuesta_correcta);
 
             if (!hasCorrectAnswer) {
                 throw new Error("La respuesta correcta no está entre las opciones.");
             }
 
-            // Si todo está bien, cargar la pregunta en el juego
+            // Guardar la respuesta correcta antes de mezclar
+            let correctAnswer = parsedContent.respuesta_correcta;
+
+            // Mezclar las opciones
+            let shuffledOptions = shuffleArray([...parsedContent.opciones]);
+
+            // Renderizar la pregunta con opciones mezcladas
             questions = [{
                 pregunta: parsedContent.pregunta,
-                opciones: parsedContent.opciones,
-                respuesta_correcta: parsedContent.respuesta_correcta
+                opciones: shuffledOptions,
+                respuesta_correcta: correctAnswer
             }];
 
-            // Renderizar la primera pregunta
             renderQuestion(questions[0]);
 
-            // Reiniciar el contador de intentos
             attempts = 0;
 
         } catch (parseError) {
-            // Manejar el error en el formato del JSON o en la validación
             console.warn("Pregunta malformada o respuesta incorrecta. Solicitando una nueva pregunta...");
 
             attempts += 1;
 
-            // Solo intentar obtener una nueva pregunta si no se ha excedido el número máximo de intentos
             if (attempts < MAX_ATTEMPTS) {
-                await getQuestions(); // Volver a intentar obtener una nueva pregunta
+                await getQuestions();
             } else {
                 console.error("Se ha alcanzado el máximo de intentos para obtener una pregunta válida.");
-                // Aquí puedes manejar este caso como mostrar un mensaje al usuario o detener el juego
             }
         }
 
@@ -60,6 +66,7 @@ const getQuestions = async () => {
         console.error("Error al obtener la pregunta:", error);
     }
 };
+
 
 
 // Función para renderizar la pregunta y las opciones

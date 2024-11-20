@@ -2,6 +2,7 @@
 // Conectar a la base de datos
 $conexion = new mysqli("localhost", "root", "", "resolution_qrproyecto");
 
+
 // Verificar conexión
 if ($conexion->connect_error) {
     die("Error en la conexión: " . $conexion->connect_error);
@@ -17,7 +18,7 @@ $resultado = $conexion->query($sql);
 // Verificar si hay resultados
 if ($resultado->num_rows > 0) {
     // Mostrar el top 3 con tabla
-    echo "<h2 style='text-align: center;'>Top 3 Usuarios</h2>";
+    echo "<h2 style='text-align: center;'>Top 3</h2>";
     echo "<table style='width: 100%; border-collapse: collapse; border-radius: 5px; overflow: hidden;'>";
     echo "<tr><th style='border: 2px solid #800020; padding: 8px; text-align: center;'>Nombre</th><th style='border: 2px solid #800020; padding: 8px; text-align: center;'>Puntaje</th></tr>";
 
@@ -37,7 +38,7 @@ if ($resultado->num_rows > 0) {
     $resultado->data_seek(0);
 
     // Mostrar el ranking completo con tabla
-    echo "<h2 style='text-align: center;'>Ranking de Usuarios</h2>";
+    echo "<h2 style='text-align: center;'>Ranking</h2>";
     echo "<table style='width: 100%; border-collapse: collapse; border-radius: 5px; overflow: hidden;'>";
     echo "<tr><th style='border: 2px solid #800020; padding: 8px; text-align: center;'>Nombre</th><th style='border: 2px solid #800020; padding: 8px; text-align: center;'>Puntaje</th></tr>";
 

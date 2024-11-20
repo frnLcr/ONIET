@@ -6,8 +6,8 @@ session_start();
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 // Define la hora de inicio y fin en formato 'Y-m-d H:i:s'
-$horaInicio = '2024-10-14 00:28:00';  // Fecha y hora de inicio que tú determines
-$horaFin = '2024-10-16 01:10:00';     // Fecha y hora de fin que tú determines
+$horaInicio = '2024-10-17 09:05:00';  // Fecha y hora de inicio que tú determines
+$horaFin = '2024-10-17 11:00:00';     // Fecha y hora de fin que tú determines
 
 // Convertir las horas de inicio y fin a timestamps
 $timestampInicio = strtotime($horaInicio);
@@ -15,7 +15,8 @@ $timestampFin = strtotime($horaFin);
 
 // Calcular el tiempo restante en segundos
 $tiempoActual = time();  // Hora actual en el servidor
-$tiempoRestante = $timestampFin - $tiempoActual;
+$tiempoRestante = $timestampInicio - $tiempoActual;
+$tiempoFinal = $timesstapFinal - $tiempoActual;
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +38,7 @@ $tiempoRestante = $timestampFin - $tiempoActual;
             background: rgba(0, 0, 0, 0.8); /* Fondo oscuro para tapar */
             z-index: 1000; /* Encima de todo */
             color: white;
-            font-size: 48px;
+            font-size: 40px;
             font-family: Arial, sans-serif;
             text-align: center;
             .inicio{
@@ -50,7 +51,7 @@ $tiempoRestante = $timestampFin - $tiempoActual;
 <body class="bodymenu">
     <div id="overlay-cronometro" style="display: none;" >
         <div id="overlay-cronometro" >
-            <p class="inicio ">El juego comienza en: </p>
+            <p class="inicio ">Buscando el saber<br>ONIET 2024<br>comienza en… </p>
             <div class="timer" id="cronometro"></div>
         </div>
     </div>
@@ -69,7 +70,7 @@ $tiempoRestante = $timestampFin - $tiempoActual;
                 </div>
                 <div class="login-labels">
                     <label for="dni">DNI</label>
-                    <input type="text" id="dni" name="dni" required placeholder="DNI" inputmode="numeric" maxlength="8">
+                    <input type="text" id="dni" name="dni" required placeholder="DNI">
                 </div>
                 <button type="submit" class="submit-btn">Entrar</button>
             </form>
@@ -120,6 +121,8 @@ $tiempoRestante = $timestampFin - $tiempoActual;
 
             tiempoRestante--;
         }, 1000);
+        
+
     </script>
     <script src="./app/pages/login/js/login.js"></script>
 </body>

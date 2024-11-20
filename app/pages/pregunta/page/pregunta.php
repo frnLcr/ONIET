@@ -5,8 +5,8 @@ session_start();
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 // Define la hora de inicio y fin en formato 'Y-m-d H:i:s'
-$horaInicio = '2024-10-11 11:00:00';  // Fecha y hora de inicio que tú determines
-$horaFin = '2024-10-16 21:45:00';     // Fecha y hora de fin que tú determines
+$horaInicio = '2024-11-17 09:00:00';  // Fecha y hora de inicio que tú determines
+$horaFin = '2024-11-20 13:30:00';     // Fecha y hora de fin que tú determines
 
 // Convertir las horas de inicio y fin a timestamps
 $timestampInicio = strtotime($horaInicio);
@@ -30,8 +30,8 @@ if (!isset($_SESSION['qr_escaneado']) || $_SESSION['qr_escaneado'] === false) {
 }
 
 $servername = "localhost";
-$username = "root";
-$password = "";
+$username = "resolution";
+$password = "Fran010204";
 $dbname = "resolution_qrproyecto";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -40,11 +40,15 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
+$conn->set_charset("utf8mb4");
+
 $usuario = $_SESSION['usuario'];
 $puntaje = $_SESSION['puntaje'];
 $nombre = $_SESSION['nombre'];
 $dni = $_SESSION['dni'];
 $mail = $_SESSION['mail'];
+$preguntaCOR = $_SESSION['preguntaCOR'];
+$preguntaINC = $_SESSION['preguntaINC'];
 
 // Consulta para obtener el puntaje actual del usuario
 $sql = "SELECT puntaje FROM USUARIOS WHERE usuario = ?";
@@ -113,7 +117,7 @@ $conn->close();
                     <circle cx="75" cy="75" r="68" stroke="#d3d3d3" stroke-width="10" fill="none" />
                     <circle id="progress-circle" cx="75" cy="75" r="68" stroke="#4CAF50" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="427.256" stroke-dashoffset="0" />
                 </svg>
-                <div id="timer-number" class="timer-number">30</div>
+                <div id="timer-number" class="timer-number">15</div>
             </div>
             <h2 class="question">Cargando pregunta...</h2>
             <div id="options" class="options"></div>
@@ -192,6 +196,8 @@ $conn->close();
             <p>Puntaje: <?php echo $puntaje; ?></p>
             <p>Dni: <?php echo $dni; ?></p>
             <p>Mail: <?php echo $mail; ?></p>
+            <p>Respuestas Correctas: <?php echo $preguntaCOR; ?></p>
+            <p>Respuestas Incorrectas: <?php echo $preguntaINC; ?></p>
         </div>
     </div>
     </div>

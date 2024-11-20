@@ -16,6 +16,8 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
+$conn->set_charset("utf8mb4");
+
 // Obtener datos del formulario
 $usuario = $_POST['usuario']; // Cambiar aquí para obtener el nombre de usuario
 $dni = $_POST['dni'];
@@ -39,6 +41,8 @@ if (!empty($usuario) && !empty($dni)) {
         $dni = $row['dni'];
         $mail = $row['mail'];
         $id = $row['id']; // Asegúrate de que esto corresponda al campo ID en tu tabla
+        $preguntaCOR = $row['preguntaCOR'];
+        $preguntaINC = $row['preguntaINC'];
 
         // Guardar el nombre de usuario, puntaje y ID en la sesión
         $_SESSION['nombre'] = $nombre;
@@ -47,7 +51,8 @@ if (!empty($usuario) && !empty($dni)) {
         $_SESSION['dni'] = $dni;
         $_SESSION['mail'] = $mail;
         $_SESSION['id'] = $id; // Guarda el ID del usuario
-
+        $_SESSION['preguntaCOR'] = $preguntaCOR;
+        $_SESSION['preguntaINC'] = $preguntaINC;
         // Enviar respuesta como JSON
         echo json_encode(["success" => true, "nombre" => $nombre]);
         exit;

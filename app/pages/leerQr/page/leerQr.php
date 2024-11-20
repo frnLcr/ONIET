@@ -6,8 +6,8 @@ session_start();
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 // Define la hora de inicio y fin en formato 'Y-m-d H:i:s'
-$horaInicio = '2024-10-11 11:00:00';  // Fecha y hora de inicio que tú determines
-$horaFin = '2024-10-17 21:45:00';     // Fecha y hora de fin que tú determines
+$horaInicio = '2024-11-17 09:00:00';  // Fecha y hora de inicio que tú determines
+$horaFin = '2024-11-20 13:30:00';     // Fecha y hora de fin que tú determines
 
 // Convertir las horas de inicio y fin a timestamps
 $timestampInicio = strtotime($horaInicio);
@@ -33,12 +33,14 @@ $puntaje = $_SESSION['puntaje'];
 $usuario = $_SESSION['usuario'];
 $dni = $_SESSION['dni'];
 $mail = $_SESSION['mail'];
+$preguntaCOR = $_SESSION['preguntaCOR'];
+$preguntaINC = $_SESSION['preguntaINC'];
 
 // Inicializar el orden
 $orden = isset($_SESSION['orden']) ? $_SESSION['orden'] : 1;
 
-// Número total de pistas (en este caso, 5)
-$total_pistas = 15;
+// Número total de pistas (en este caso, 30)
+$total_pistas = 30;
 
 // Si el orden es mayor que el total de pistas, reiniciar a 1
 if ($orden > $total_pistas) {
@@ -93,8 +95,8 @@ if ($orden > $total_pistas) {
     </header>
     <div class="cronometroo" id="cronometro"></div>
     <main class="leeqr">
+    <p class="estilo-msj">PISTA:</p>
         <section class="psita">
-            <p class="estilo-msj">PISTA:</p>
             <h1 id=pista></h1>
         </section>
         <div style=" text-align: center; color: #5C0000">
@@ -186,6 +188,8 @@ if ($orden > $total_pistas) {
             <p>Puntaje: <?php echo $puntaje; ?></p>
             <p>Dni: <?php echo $dni; ?></p>
             <p>Mail: <?php echo $mail; ?></p>
+            <p>Respuestas Correctas: <?php echo $preguntaCOR; ?></p>
+            <p>Respuestas Incorrectas: <?php echo $preguntaINC; ?></p>
         </div>
     </div>
 
