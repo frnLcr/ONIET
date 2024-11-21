@@ -16,7 +16,6 @@ $timestampFin = strtotime($horaFin);
 // Calcular el tiempo restante en segundos
 $tiempoActual = time();  // Hora actual en el servidor
 $tiempoRestante = $timestampInicio - $tiempoActual;
-$tiempoFinal = $timesstapFinal - $tiempoActual;
 ?>
 
 <!DOCTYPE html>

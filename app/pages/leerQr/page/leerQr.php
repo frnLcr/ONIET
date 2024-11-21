@@ -7,7 +7,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 // Define la hora de inicio y fin en formato 'Y-m-d H:i:s'
 $horaInicio = '2024-11-17 09:00:00';  // Fecha y hora de inicio que tú determines
-$horaFin = '2024-11-20 13:30:00';     // Fecha y hora de fin que tú determines
+$horaFin = '2025-11-20 13:30:00';     // Fecha y hora de fin que tú determines
 
 // Convertir las horas de inicio y fin a timestamps
 $timestampInicio = strtotime($horaInicio);
