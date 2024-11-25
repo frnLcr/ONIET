@@ -1,0 +1,152 @@
+html{
+    height: 100%;
+}
+.bodymenu {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    
+}
+.logod{
+    background-color: #fffefe28;
+    border-radius: 10px;
+    width: 400px;
+    margin-left: 1rem;
+    margin-top: 10px;
+}
+
+.logologin{
+    width: 300px;
+    height: 40px;
+    padding-left: 53px;
+}
+.chat{
+    width: 180px;
+    height: 40px;
+    margin-left: 120px;
+}
+.bodypregunta{ 
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+
+.navbar{
+    background-color: #a02525;
+    color: white;
+}
+.nav{
+    color: white !important ;
+    text-decoration: none !important;
+}
+.logoheadee{
+    width: 50%;
+}
+
+.navbar-nav .nav-link:hover {
+    color: rgb(0, 0, 0) !important;
+}
+.login {
+    background-color: rgba(255, 255, 255, 0);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: center;
+}
+.login-header {
+    background-color: #5C0000; 
+    color: white;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.login-form {
+    padding: 1.25rem;
+    background-color: #ffffff;
+}
+.login-labels {
+    margin-bottom: 15px;
+    text-align: left;
+}
+.login-labels label {
+    display: block;
+    margin-bottom: 0.3125rem;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+.login-labels input {
+    width: 100%;
+    padding: 0.625rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+.submit-btn {
+    background-color: #8B0000;
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    transition: background-color 0.3 ease;
+}
+
+.submit-btn:hover {
+    background-color: #6B0000;
+}
+
+#message {
+    display: none; /* Asegúrate de que esté oculto inicialmente */
+    text-align: center;
+    color: green;
+    padding: 1.25rem;
+    opacity: 0; /* Inicialmente transparente */
+    transition: opacity 3s; /* Transición suave para la opacidad */
+}
+
+@media (max-width: 480px) {
+    :root {
+        font-size: 0.9rem;
+    }
+    .login {
+        width: 300px;
+        margin: 0;
+        border-radius: 8px;
+    }
+    .logologin{
+        width: 300px;
+        height: 40px;
+        padding-left: 0;
+        margin-top: 5px;
+    }
+    .logod{
+        width: 300px;
+        height: 90px;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    .chat{
+        width: 180px;
+        height: 40px;
+        margin-left: 60px;
+    }
+
+    #message {
+        display: none; /* Asegúrate de que esté oculto inicialmente */
+        text-align: center;
+        color: green;
+        padding: 1.25rem;
+        opacity: 0; /* Inicialmente transparente */
+        transition: opacity 3s; /* Transición suave para la opacidad */
+    }
+    
+}

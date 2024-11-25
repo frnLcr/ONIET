@@ -1,11 +1,10 @@
 let currentQuestionIndex = 0;
 let questions = [];
-
-// Límite de intentos para evitar bucles infinitos
 const MAX_ATTEMPTS = 3;
 let attempts = 0;
+const MAX_QUESTIONS = 30;
+let questionCount = 0;
 
-// Función para mezclar las opciones (algoritmo de Fisher-Yates)
 const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -61,7 +60,6 @@ const getQuestions = async () => {
             // Mezclar las opciones
             let shuffledOptions = shuffleArray([...parsedContent.opciones]);
 
-            // Renderizar la pregunta con opciones mezcladas
             questions = [{
                 pregunta: parsedContent.pregunta,
                 opciones: shuffledOptions,
@@ -71,53 +69,40 @@ const getQuestions = async () => {
             renderQuestion(questions[0]);
             await guardarPreguntaEnBaseDeDatos(parsedContent.pregunta);
             attempts = 0;
-
         } catch (parseError) {
             console.warn("Pregunta malformada o respuesta incorrecta. Solicitando una nueva pregunta...");
             attempts += 1;
-
             if (attempts < MAX_ATTEMPTS) {
                 await getQuestions();
             } else {
-                console.error("Se ha alcanzado el máximo de intentos para obtener una pregunta válida.");
+                console.error("Máximo de intentos para obtener una pregunta válida alcanzado.");
             }
         }
+
     } catch (error) {
         console.error("Error al obtener la pregunta:", error);
     }
 };
 
-// Función para renderizar la pregunta y las opciones
 const renderQuestion = (question) => {
     const questionElement = document.querySelector('.question');
     const optionsElement = document.getElementById('options');
     const nextQuestionBtn = document.getElementById('nextQuestionBtn');
 
-    // Ocultar el botón "Continuar" al renderizar la pregunta
     nextQuestionBtn.style.display = 'none';
-
-    // Mostrar la pregunta
     questionElement.textContent = question.pregunta;
-
-    // Limpiar las opciones anteriores
     optionsElement.innerHTML = '';
 
-    // Mostrar las opciones como botones
     question.opciones.forEach((opcion) => {
         const button = document.createElement('button');
         button.textContent = opcion;
         button.classList.add('option');
-
-        // Evento al seleccionar una opción
         button.addEventListener('click', () => validateAnswer(button, opcion, question.respuesta_correcta));
-
         optionsElement.appendChild(button);
     });
-    // Iniciar el temporizador una vez que se ha renderizado la pregunta
+
     startTimer();
 };
-
-// Función para validar la respuesta
 
 const guardarRespuestasUsuario = async (respuesta) => {
     try {
@@ -126,7 +111,7 @@ const guardarRespuestasUsuario = async (respuesta) => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
+            body: JSON.stringify({ 
                 respuesta
             }) // Nota: No se envía usuarioId
         });
@@ -143,7 +128,7 @@ const guardarRespuestasUsuario = async (respuesta) => {
     }
 };
 
-// Actualizar validateAnswer para llamar a guardarRespuestasUsuario
+
 const validateAnswer = (selectedButton, selectedOption, correctAnswer) => {
     const optionButtons = document.querySelectorAll('.option');
     const nextQuestionBtn = document.getElementById('nextQuestionBtn');
@@ -170,7 +155,6 @@ const validateAnswer = (selectedButton, selectedOption, correctAnswer) => {
             }
         });
     }
-
     // Guardar la respuesta del usuario
     guardarRespuestasUsuario(selectedOption);
 
@@ -181,44 +165,42 @@ const validateAnswer = (selectedButton, selectedOption, correctAnswer) => {
 };
 
 
-// Función para enviar el puntaje al servidor (PHP)
-const actualizarPuntaje = (puntosGanados, isCorrect) => {
+
+const actualizarPuntaje = (puntosGanados) => {
     fetch("../page/actualizar_puntaje.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ puntaje: puntosGanados, isCorrect: isCorrect })
+        body: JSON.stringify({ puntaje: puntosGanados })
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log("Puntaje actualizado:", puntosGanados);
-            } else {
-                console.error("Error al actualizar el puntaje:", data.error);
-            }
-        })
-        .catch(error => console.error("Error en la petición:", error));
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log("Puntaje actualizado:", puntosGanados);
+        } else {
+            console.error("Error al actualizar el puntaje:", data.error);
+        }
+    })
+    .catch(error => console.error("Error en la petición:", error));
 };
 
-// Función para pasar a la siguiente pregunta
-const nextQuestion = () => {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-        renderQuestion(questions[currentQuestionIndex]);
+// Modificada la función nextQuestion para que redirija solo al presionar el botón de continuar
+function nextQuestion() {
+    questionCount += 1;
+    if (questionCount < MAX_QUESTIONS) {
+        window.location.href = "procesa_respuesta.php"; // Redirige al procesador de respuestas
     } else {
-        location.href = "../../../pages/leerQr/page/leerQr.php";
+        window.location.href = "../../gameover/game_over.php"; // Redirige a la página de gameover si alcanza el límite de preguntas
     }
-};
+}
 
-// Temporizador y funciones relacionadas
-let timeLeft = 15; // Tiempo inicial de 15 segundos
+let timeLeft = 15;
 let timerInterval;
 const timerElement = document.getElementById('timer');
 const progressCircle = document.getElementById('progress-circle');
 const timerNumber = document.getElementById('timer-number');
 const timeOutMessage = document.getElementById('time-out-message');
-
 const totalTime = 15;
 const radius = 68;
 const circumference = 2 * Math.PI * radius;
@@ -233,7 +215,6 @@ const showTimeOutMessage = () => {
     timeOutMessage.style.display = 'block';
 };
 
-// Función para interpolar entre dos colores (verde y rojo)
 const interpolateColor = (startColor, endColor, factor) => {
     const result = startColor.slice();
     for (let i = 0; i < 3; i++) {
@@ -242,13 +223,11 @@ const interpolateColor = (startColor, endColor, factor) => {
     return `rgb(${result.join(',')})`;
 };
 
-const startColor = [0, 255, 0]; // Verde
-const endColor = [255, 0, 0];   // Rojo
+const startColor = [0, 255, 0];
+const endColor = [255, 0, 0];
 
-// Función para actualizar el temporizador
 const updateTimer = () => {
     timerNumber.textContent = Math.ceil(timeLeft);
-
     const offset = circumference - (timeLeft / totalTime) * circumference;
     progressCircle.style.strokeDashoffset = offset;
 
@@ -263,7 +242,6 @@ const updateTimer = () => {
 
         const optionButtons = document.querySelectorAll('.option');
         optionButtons.forEach(button => button.disabled = true);
-
         optionButtons.forEach(button => {
             if (button.textContent === questions[currentQuestionIndex].respuesta_correcta) {
                 button.style.backgroundColor = 'green';
@@ -280,7 +258,6 @@ const updateTimer = () => {
     timeLeft -= 0.1;
 };
 
-// Iniciar el temporizador
 const startTimer = () => {
     timeLeft = totalTime;
     hideTimeOutMessage();
@@ -288,12 +265,11 @@ const startTimer = () => {
     timerInterval = setInterval(updateTimer, 100);
 };
 
-// Llamar a la función para iniciar la obtención de preguntas
 getQuestions();
 
+// Escucha para el botón de continuar
 document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestion);
 
-$(document).ready(function () {
+$(document).ready(function(){
     $("#topp").load("../page/usuarios_top.php");
 });
-
