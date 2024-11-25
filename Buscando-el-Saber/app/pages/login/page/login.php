@@ -18,7 +18,7 @@ if (empty($usuario) || empty($dni)) {
 }
 
 // Preparar la consulta SQL
-$sql = "SELECT * FROM usuarios WHERE usuario = ? AND dni = ?";
+$sql = "SELECT * FROM USUARIOS WHERE usuario = ? AND dni = ?";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
