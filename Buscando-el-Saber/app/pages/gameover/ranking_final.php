@@ -6,7 +6,7 @@ include '../../../connection.php';
 $usuario_actual = $_SESSION['usuario']; // El usuario actual (usuario de la sesión)
 
 // Consulta para obtener todos los usuarios ordenados por puntaje
-$sql = "SELECT nombre, puntaje, usuario FROM usuarios ORDER BY puntaje DESC";
+$sql = "SELECT nombre, puntaje, usuario FROM USUARIOS ORDER BY puntaje DESC";
 $resultado = $conn->query($sql);
 
 // Verificar si hay resultados

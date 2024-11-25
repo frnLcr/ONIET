@@ -164,7 +164,7 @@ if ($result->num_rows === 0) {
     </header>
     <div class="cronometroo" id="cronometro">
     </div>
-    <div class="" id="cronometrooo">
+    <div class="cronometrooo" id="cronometrooo">
     </div>
     <main>
         <div class="msj-pregunta"> Si la pregunta no carga correctamente, reinicie la pagina porfavor.</div>
@@ -309,7 +309,7 @@ if ($result->num_rows === 0) {
             segundos = segundos < 10 ? "0" + segundos : segundos;
 
             // Muestra el cronómetro
-            document.getElementById("cronometrooo").innerHTML = horas + ":" + minutos + ":" + segundos;
+            document.getElementById("cronometrooo").innerHTML = "Fin del juego en:" + horas + ":" + minutos + ":" + segundos;
 
             // Comprueba si el tiempo se ha agotado
             if (tiempoRestante <= 0) {

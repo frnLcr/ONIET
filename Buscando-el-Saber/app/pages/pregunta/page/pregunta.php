@@ -56,7 +56,7 @@ $conn->set_charset("utf8mb4");
 
 // Consulta para obtener el puntaje actual del usuario
 $usuario = $_SESSION['usuario'];
-$sql = "SELECT puntaje FROM usuarios WHERE usuario = ?";
+$sql = "SELECT puntaje FROM USUARIOS WHERE usuario = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $usuario);
 $stmt->execute();

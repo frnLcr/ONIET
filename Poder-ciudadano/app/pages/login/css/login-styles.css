@@ -1,6 +1,7 @@
-html{
+html {
     height: 100%;
 }
+
 .bodymenu {
     font-family: Arial, sans-serif;
     display: flex;
@@ -8,9 +9,10 @@ html{
     align-items: center;
     height: 100vh;
     margin: 0;
-    
+
 }
-.logod{
+
+.logod {
     background-color: #fffefe28;
     border-radius: 10px;
     width: 400px;
@@ -18,38 +20,43 @@ html{
     margin-top: 10px;
 }
 
-.logologin{
+.logologin {
     width: 300px;
     height: 40px;
     padding-left: 53px;
 }
-.chat{
+
+.chat {
     width: 180px;
     height: 40px;
     margin-left: 120px;
 }
-.bodypregunta{ 
+
+.bodypregunta {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
 }
 
 
-.navbar{
-    background-color: #a02525;
+.navbar {
+    background-color: #E8B62B;
     color: white;
 }
-.nav{
-    color: white !important ;
+
+.nav {
+    color: white !important;
     text-decoration: none !important;
 }
-.logoheadee{
+
+.logoheadee {
     width: 50%;
 }
 
 .navbar-nav .nav-link:hover {
     color: rgb(0, 0, 0) !important;
 }
+
 .login {
     background-color: rgba(255, 255, 255, 0);
     padding: 20px;
@@ -58,8 +65,9 @@ html{
     width: 300px;
     text-align: center;
 }
+
 .login-header {
-    background-color: #5C0000; 
+    background-color: #E8B62B;
     color: white;
     padding: 1.25rem;
     border-radius: 0.5rem;
@@ -70,16 +78,19 @@ html{
     padding: 1.25rem;
     background-color: #ffffff;
 }
+
 .login-labels {
     margin-bottom: 15px;
     text-align: left;
 }
+
 .login-labels label {
     display: block;
     margin-bottom: 0.3125rem;
     font-weight: bold;
     font-size: 0.875rem;
 }
+
 .login-labels input {
     width: 100%;
     padding: 0.625rem;
@@ -88,8 +99,9 @@ html{
     box-sizing: border-box;
     font-size: 1rem;
 }
+
 .submit-btn {
-    background-color: #8B0000;
+    background-color: #E8B62B;
     color: white;
     border: none;
     padding: 0.75rem 1rem;
@@ -101,52 +113,62 @@ html{
 }
 
 .submit-btn:hover {
-    background-color: #6B0000;
+    background-color: #FAD201;
 }
 
 #message {
-    display: none; /* Asegúrate de que esté oculto inicialmente */
+    display: none;
+    /* Asegúrate de que esté oculto inicialmente */
     text-align: center;
     color: green;
     padding: 1.25rem;
-    opacity: 0; /* Inicialmente transparente */
-    transition: opacity 3s; /* Transición suave para la opacidad */
+    opacity: 0;
+    /* Inicialmente transparente */
+    transition: opacity 3s;
+    /* Transición suave para la opacidad */
 }
 
 @media (max-width: 480px) {
     :root {
         font-size: 0.9rem;
     }
+
     .login {
         width: 300px;
         margin: 0;
         border-radius: 8px;
     }
-    .logologin{
+
+    .logologin {
         width: 300px;
         height: 40px;
         padding-left: 0;
         margin-top: 5px;
     }
-    .logod{
+
+    .logod {
         width: 300px;
         height: 90px;
         margin-left: 0;
         margin-top: 10px;
     }
-    .chat{
+
+    .chat {
         width: 180px;
         height: 40px;
         margin-left: 60px;
     }
 
     #message {
-        display: none; /* Asegúrate de que esté oculto inicialmente */
+        display: none;
+        /* Asegúrate de que esté oculto inicialmente */
         text-align: center;
         color: green;
         padding: 1.25rem;
-        opacity: 0; /* Inicialmente transparente */
-        transition: opacity 3s; /* Transición suave para la opacidad */
+        opacity: 0;
+        /* Inicialmente transparente */
+        transition: opacity 3s;
+        /* Transición suave para la opacidad */
     }
-    
+
 }
