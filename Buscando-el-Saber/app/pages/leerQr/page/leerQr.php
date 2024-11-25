@@ -3,7 +3,10 @@
 // Iniciar la sesión
 session_start();
 
-// Incluir el archivo config.php
+include '../../../../connection.php';
+include './preguntas.php';
+include './respuestas.php';
+
 require_once 'config.php';
 
 // Validar que los valores obtenidos de config.php estén disponibles y sean válidos
@@ -78,7 +81,6 @@ if ($orden > $total_pistas) {
 // Continuar con el resto del código...
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -117,6 +119,7 @@ if ($orden > $total_pistas) {
                     <li><a href="#" id="estrategiasBtn">ESTRATEGIAS</a></li>
                     <li><a href="#" id="sobreNosotrosBtn">SOBRE NOSOTROS</a></li>
                     <li><a href="#" id="rankingBtn">RANKING</a></li>
+                    <li><a href="#" id="preguntasBtn">PREGUNTAS</a></li>
                     <li><a href="#" id="perfilBtn">PERFIL</a></li>
                     <li><a href="#" id="Cerrarsesión">CERRAR SESIÓN</a></li>
                 </ul>
@@ -164,7 +167,7 @@ if ($orden > $total_pistas) {
                 Al final del juego, se mostrara el ranking general y se decidiran los ganadores.</p>
         </div>
     </div>
-
+    
     <div id="modalEstrategias" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -208,6 +211,66 @@ if ($orden > $total_pistas) {
             <div id="topp"></div>
         </div>
     </div>
+    
+    <div id="modalPreguntas" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 class="topp">Preguntas respondidas</h2>
+        <div class="questions-container">
+            <?php 
+            // Iterar hasta 30, ya que son las 30 preguntas
+            for ($i = 1; $i <= 30; $i++):
+                // Obtener el título de la pregunta (ej. "pregunta 1")
+                $preguntaKey = "pregunta_$i";
+                $respuestaKey = "respuesta_$i";
+                
+                // Verificar si la pregunta está respondida en PREGUNTAS_RESPUESTAS
+                $preguntaRespuesta = isset($preguntasRespondidas[$preguntaKey]) ? $preguntasRespondidas[$preguntaKey] : null;
+
+                // Verificar si la respuesta está respondida en RESPUESTAS_USUARIO
+                $respuestaUsuario = isset($respuestasUsuario[$respuestaKey]) ? $respuestasUsuario[$respuestaKey] : null;
+
+                // Solo mostrar si hay respuesta
+                if ($preguntaRespuesta || $respuestaUsuario): 
+            ?>
+                <div class="question-item">
+                    <h3 class="question-title">
+                        <?php echo ucfirst(str_replace('_', ' ', $preguntaKey)); ?>
+                    </h3>
+                    <p class="question-text">
+                        <?php 
+                        // Mostrar la respuesta de PREGUNTAS_RESPUESTAS si existe
+                        echo $preguntaRespuesta ? htmlspecialchars($preguntaRespuesta) : '';
+                        ?>
+                    </p>
+                
+
+                <?php 
+                // Solo mostrar la respuesta si existe en RESPUESTAS_USUARIO
+                if ($respuestaUsuario): 
+                ?>
+                <br>
+                    <div class="answer-item">
+                        <h3 class="answer-title">Respuesta</h3>
+                        <p class="answer-text">
+                            <?php echo htmlspecialchars($respuestaUsuario); ?>
+                        </p>
+                    </div>
+
+                    </div>
+                <?php endif; ?>
+
+            <?php 
+                endif;
+            endfor; 
+            ?>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
 
     <div id="modalPerfil" class="modal">
         <div class="modal-content">

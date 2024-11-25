@@ -186,6 +186,39 @@ li {
     color: #333;
 }
 
+
+/* Contenedor de las preguntas */
+.questions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: 400px;
+    overflow: auto;
+
+}
+
+/* Estilo de cada pregunta */
+.question-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+
+.question-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.question-text {
+    text-align: start;
+    font-size: 0.95em;
+    color: #333;
+}
+
 /* Botones dentro del modal */
 .modal-button {
     background-color: #5C0000;

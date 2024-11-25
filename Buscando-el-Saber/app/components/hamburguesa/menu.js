@@ -20,6 +20,7 @@ const sobreNosotrosBtn = document.getElementById('sobreNosotrosBtn');
 const rankingBtn = document.getElementById('rankingBtn');
 const perfilBtn = document.getElementById('perfilBtn');
 const Cerrarsesión = document.getElementById('Cerrarsesión');
+const preguntasBtn = document.getElementById('preguntasBtn');
 
 // Selección de las modales
 const modalComoJugar = document.getElementById('modalComoJugar');
@@ -28,6 +29,7 @@ const modalSobreNosotros = document.getElementById('modalSobreNosotros');
 const modalRanking = document.getElementById('modalRanking');
 const modalPerfil = document.getElementById('modalPerfil');
 const modmodalcerrarsesion = document.getElementById('modalcerrarsesion');
+const modalPreguntas = document.getElementById('modalPreguntas');
 
 // Selección de los botones para cerrar las modales
 const closeButtons = document.querySelectorAll('.close');
@@ -44,12 +46,19 @@ estrategiasBtn.addEventListener('click', () => {
 sobreNosotrosBtn.addEventListener('click', () => {
     modalSobreNosotros.style.display = 'block';
 });
+
 rankingBtn.addEventListener('click', () => {
     modalRanking.style.display = 'block';
 });
+
 perfilBtn.addEventListener('click', () => {
     modalPerfil.style.display = 'block';
 });
+
+preguntasBtn.addEventListener('click', () => {
+    modalPreguntas.style.display = 'block';
+});
+
 Cerrarsesión.addEventListener('click', () => {
     modmodalcerrarsesion.style.display = 'block';
 });

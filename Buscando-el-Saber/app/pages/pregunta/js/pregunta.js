@@ -120,6 +120,32 @@ const renderQuestion = (question) => {
 };
 
 // Función para validar la respuesta
+
+const guardarRespuestasUsuario = async (respuesta) => {
+    try {
+        const response = await fetch("../page/guardar_respuesta_usuario.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                respuesta
+            }) // Nota: No se envía usuarioId
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            console.log(`Respuesta guardada correctamente para la pregunta.`);
+        } else {
+            console.error("Error al guardar la respuesta:", data.error);
+        }
+    } catch (error) {
+        console.error("Error al guardar la respuesta:", error);
+    }
+};
+
+// Actualizar validateAnswer para llamar a guardarRespuestasUsuario
 const validateAnswer = (selectedButton, selectedOption, correctAnswer) => {
     const optionButtons = document.querySelectorAll('.option');
     const nextQuestionBtn = document.getElementById('nextQuestionBtn');
@@ -131,6 +157,7 @@ const validateAnswer = (selectedButton, selectedOption, correctAnswer) => {
     optionButtons.forEach(button => button.disabled = true);
     let puntosGanados = 0;
     let isCorrect = false;
+
     // Determinar si la respuesta es correcta
     if (selectedOption === correctAnswer) {
         selectedButton.style.backgroundColor = 'green';
@@ -146,11 +173,15 @@ const validateAnswer = (selectedButton, selectedOption, correctAnswer) => {
         });
     }
 
+    // Guardar la respuesta del usuario
+    guardarRespuestasUsuario(selectedOption);
+
     actualizarPuntaje(puntosGanados, isCorrect);
 
     // Mostrar el botón "Continuar"
     nextQuestionBtn.style.display = 'block';
 };
+
 
 // Función para enviar el puntaje al servidor (PHP)
 const actualizarPuntaje = (puntosGanados, isCorrect) => {
@@ -183,14 +214,14 @@ const nextQuestion = () => {
 };
 
 // Temporizador y funciones relacionadas
-let timeLeft = 30; // Tiempo inicial de 30 segundos
+let timeLeft = 15; // Tiempo inicial de 15 segundos
 let timerInterval;
 const timerElement = document.getElementById('timer');
 const progressCircle = document.getElementById('progress-circle');
 const timerNumber = document.getElementById('timer-number');
 const timeOutMessage = document.getElementById('time-out-message');
 
-const totalTime = 30;
+const totalTime = 15;
 const radius = 68;
 const circumference = 2 * Math.PI * radius;
 progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;

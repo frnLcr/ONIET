@@ -9,7 +9,7 @@ include '../../../../connection.php';
 $conn->set_charset("utf8mb4");
 
 // Consulta para obtener inicio, fin y el ID más grande
-$sql = "SELECT MIN(inicio) AS inicio, MAX(fin) AS fin, MAX(id) AS ultimo_id FROM juego";
+$sql = "SELECT MIN(inicio) AS inicio, MAX(fin) AS fin, MAX(id) AS ultimo_id FROM JUEGO";
 $result = $conn->query($sql);
 
 if (!$result) {
